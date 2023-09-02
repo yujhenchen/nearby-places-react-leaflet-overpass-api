@@ -5,10 +5,6 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 export default function MapLayout() {
   return (
     <div className="w-screen h-screen ">
-      <div className="fixed w-10 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24">
-        <CurrentLocationButton />
-      </div>
-
       <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -20,6 +16,10 @@ export default function MapLayout() {
           </Popup>
         </Marker>
       </MapContainer>
+
+      <div className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 backdrop-blur shadow-lg p-2 rounded-full">
+        <CurrentLocationButton />
+      </div>
     </div>
   );
 }
