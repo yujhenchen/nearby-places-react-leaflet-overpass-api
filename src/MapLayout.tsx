@@ -1,5 +1,34 @@
+import { LatLng } from "leaflet";
+import { useState } from "react";
+// import CurrentLocationButton from "./CurrentLocationButton";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
 import CurrentLocationButton from "./CurrentLocationButton";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+
+function LocationMarker() {
+  const [position, setPosition] = useState<LatLng | null>(null);
+
+  const map = useMapEvents({
+    click() {
+      map.locate();
+    },
+    locationfound(e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
+
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+}
 
 export default function MapLayout() {
   return (
@@ -14,6 +43,8 @@ export default function MapLayout() {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
+
+        <LocationMarker />
       </MapContainer>
 
       <div className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 backdrop-blur shadow-lg p-2 rounded-full">
