@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Navigation() {
   return (
     <nav className="fixed top-4 w-screen h-20 flex items-center px-8 lg:px-64 place-content-start bg-gray-300">

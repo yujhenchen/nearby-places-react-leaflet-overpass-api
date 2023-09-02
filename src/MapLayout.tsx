@@ -1,4 +1,3 @@
-import React from "react";
 import CurrentLocationButton from "./CurrentLocationButton";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function CurrentLocationButton() {
   return (
     <button className="w-full h-full flex items-center place-content-center">
