@@ -1,27 +1,43 @@
 import { LatLng } from "leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import CurrentLocationButton from "./CurrentLocationButton";
 import {
   MapContainer,
   Marker,
   Popup,
   TileLayer,
-  useMapEvents,
+  useMap,
+  //   useMapEvents,
 } from "react-leaflet";
-import CurrentLocationButton from "./CurrentLocationButton";
+import CurrentLocationIcon from "./CurrentLocationIcon";
 
-function LocationMarker() {
+type Props = {
+  goToCurrentPosition: boolean;
+};
+
+function LocationMarker({ goToCurrentPosition }: Props) {
   const [position, setPosition] = useState<LatLng | null>(null);
 
-  const map = useMapEvents({
-    click() {
-      map.locate();
-    },
-    locationfound(e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
+  const [goToCurrent, setGoToCurrent] = useState(false);
+
+  const map = useMap();
+
+  useEffect(() => {
+    setGoToCurrent(goToCurrentPosition);
+  }, [goToCurrentPosition]);
+
+  useEffect(() => {
+    if (goToCurrent) {
+      map.locate().on("locationfound", function (e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+        //   const radius = e.accuracy;
+        //   const circle = L.circle(e.latlng, radius);
+        //   circle.addTo(map);
+        //   setBbox(e.bounds.toBBoxString().split(","));
+      });
+    }
+  }, [map, goToCurrent]);
 
   return position === null ? null : (
     <Marker position={position}>
@@ -31,6 +47,8 @@ function LocationMarker() {
 }
 
 export default function MapLayout() {
+  const [goToCurrentPosition, setGoToCurrentPosition] = useState(false);
+
   return (
     <div className="w-screen h-screen ">
       <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
@@ -44,12 +62,15 @@ export default function MapLayout() {
           </Popup>
         </Marker>
 
-        <LocationMarker />
+        <LocationMarker goToCurrentPosition={goToCurrentPosition} />
       </MapContainer>
 
-      <div className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 backdrop-blur shadow-lg p-2 rounded-full">
-        <CurrentLocationButton />
-      </div>
+      <button
+        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 backdrop-blur bg-white p-2 rounded-full"
+        onClick={() => setGoToCurrentPosition(true)}
+      >
+        <CurrentLocationIcon />
+      </button>
     </div>
   );
 }

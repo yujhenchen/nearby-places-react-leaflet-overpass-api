@@ -1,6 +1,6 @@
-export default function CurrentLocationButton() {
+export default function CurrentLocationIcon() {
   return (
-    <button className="w-full h-full flex items-center place-content-center">
+    <div className="w-full h-full flex items-center place-content-center">
       <svg
         className="w-full aspect-square"
         viewBox="0 0 15 15"
@@ -13,6 +13,6 @@ export default function CurrentLocationButton() {
           d="M7.5.5v14m7-7.005H.5m13 0a6.006 6.006 0 0 1-6 6.005c-3.313 0-6-2.694-6-6.005a5.999 5.999 0 0 1 6-5.996a6 6 0 0 1 6 5.996Z"
         />
       </svg>
-    </button>
+    </div>
   );
 }
