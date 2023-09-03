@@ -1,6 +1,13 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  ZoomControl,
+  useMap,
+} from "react-leaflet";
 import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
@@ -45,7 +52,7 @@ export default function MapLayout() {
 
   return (
     <div className="w-screen h-screen ">
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -57,11 +64,11 @@ export default function MapLayout() {
         </Marker>
 
         <LocationMarker goToCurrentPosition={goToCurrentPosition} />
+        <ZoomControl position="topright" />
       </MapContainer>
 
       <button
-        // className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 bg-white p-2 rounded-full"
-        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:right-24 bg-white p-2 rounded-full"
+        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 bg-white p-2 rounded-full"
         onClick={() => setGoToCurrentPosition(true)}
       >
         <CurrentLocationIcon />
