@@ -1,13 +1,6 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  ZoomControl,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
 import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
@@ -16,6 +9,7 @@ import { Category, PositionType } from "./libs/enums";
 import { defaultPosition } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import DefaultLocationIcon from "./DefaultLocationIcon";
+import MapMarker from "./MapMarker";
 // import useMapStore from "./store/useMapStore";
 
 type Props = {
@@ -54,9 +48,10 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
   }, [map, toPosition]);
 
   return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
+    <MapMarker
+      position={{ lat: position.lat, lon: position.lng }}
+      text={"You are here"}
+    />
   );
 }
 
@@ -91,11 +86,11 @@ export default function MapLayout() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[position.lat, position.lon]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+
+        <MapMarker
+          position={{ lat: position.lat, lon: position.lon }}
+          text={"You are here"}
+        />
 
         <LocationMarker
           toPositionType={toPositionType}
