@@ -1,13 +1,14 @@
 import { Marker, Popup } from "react-leaflet";
 import { GeoPosition } from "./libs/types";
 import { renderToStaticMarkup } from "react-dom/server";
-import { divIcon } from "leaflet";
+import { LeafletMouseEvent, divIcon } from "leaflet";
 
 type Props = {
   position: GeoPosition;
   imagePath: string;
   text: string;
   backgroundColor: string;
+  onClickMarker: (event: LeafletMouseEvent) => void;
 };
 
 export default function CustomMapMarker({
@@ -15,6 +16,7 @@ export default function CustomMapMarker({
   imagePath,
   text,
   backgroundColor,
+  onClickMarker,
 }: Props) {
   const iconMarkup = renderToStaticMarkup(
     <div
@@ -32,7 +34,15 @@ export default function CustomMapMarker({
   });
 
   return (
-    <Marker position={[position.lat, position.lon]} icon={customMarkerIcon}>
+    <Marker
+      position={[position.lat, position.lon]}
+      icon={customMarkerIcon}
+      eventHandlers={{
+        click: (e) => {
+          onClickMarker(e);
+        },
+      }}
+    >
       <Popup>{text}</Popup>
     </Marker>
   );

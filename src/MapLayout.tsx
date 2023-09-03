@@ -14,6 +14,7 @@ import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
 import useMapStore from "./store/useMapStore";
+import { LeafletMouseEvent } from "leaflet";
 
 type Props = {
   toPositionType: PositionType;
@@ -81,6 +82,10 @@ export default function MapLayout() {
     state.setPosition,
   ]);
 
+  const [selectedPosition, setSelectedPosition] = useState<GeoPosition | null>(
+    null
+  );
+
   useEffect(() => {
     setPosition(storePosition);
   }, [storePosition]);
@@ -88,6 +93,10 @@ export default function MapLayout() {
   useEffect(() => {
     setStorePosition(position);
   }, [position]);
+
+  function onClickCustomMapMarker(event: LeafletMouseEvent): void {
+    setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
+  }
 
   return (
     <div className="w-screen h-screen">
@@ -113,6 +122,7 @@ export default function MapLayout() {
             imagePath="./restaurant.svg"
             text={restaurant.tags.name}
             backgroundColor="bg-orange-300"
+            onClickMarker={onClickCustomMapMarker}
           />
         ))}
 
@@ -154,7 +164,11 @@ export default function MapLayout() {
         }}
       />
 
-      <PlaceContainer currentPosition={position} places={restaurants} />
+      <PlaceContainer
+        currentPosition={position}
+        places={restaurants}
+        selectedPosition={selectedPosition}
+      />
     </div>
   );
 }
