@@ -66,7 +66,8 @@ export default function MapLayout() {
       </MapContainer>
 
       <button
-        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 backdrop-blur bg-white p-2 rounded-full"
+        // className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 bg-white p-2 rounded-full"
+        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:right-24 bg-white p-2 rounded-full"
         onClick={() => setGoToCurrentPosition(true)}
       >
         <CurrentLocationIcon />
