@@ -6,7 +6,7 @@ import { defaultPosition } from '../libs/constants';
 const useMapStore = create<MapState>()(
     persist(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        (set, get) => ({
+        (set, _get) => ({
             position: {
                 lat: defaultPosition.lat,
                 lon: defaultPosition.lon,
