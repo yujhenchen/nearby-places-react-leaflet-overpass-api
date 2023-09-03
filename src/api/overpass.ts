@@ -1,5 +1,5 @@
-import { Category } from "../enums";
-import { GeoPosition } from "../types";
+import { Category } from "../libs/enums";
+import { GeoPosition } from "../libs/types";
 
 const BASE_URL = "https://overpass-api.de/api/interpreter";
 
@@ -14,14 +14,14 @@ type Elements = {
 
 export const fetchPlaces = async (
     category: Category,
-    geoPosition: GeoPosition,
+    position: GeoPosition,
     // box: string
 ): Promise<Elements[] | boolean> => {
     try {
 
         const query = `
         [out:json][timeout:25];
-        (node[amenity=${category}](around:10000, ${geoPosition.lat}, ${geoPosition.lon}););
+        (node[amenity=${category}](around:10000, ${position.lat}, ${position.lon}););
         out;
         >;
         out skel qt;

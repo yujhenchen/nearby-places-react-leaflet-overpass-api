@@ -11,29 +11,33 @@ import {
 import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
-import { GeoPosition } from "./types";
-import { Category } from "./enums";
-import { defaultGeoPosition } from "./constants";
+import { GeoPosition } from "./libs/types";
+import { Category, PositionType } from "./libs/enums";
+import { defaultPosition } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import DefaultLocationIcon from "./DefaultLocationIcon";
+// import useMapStore from "./store/useMapStore";
 
 type Props = {
-  goToCurrentPosition: boolean;
+  toPositionType: PositionType;
+  targetPosition: GeoPosition;
 };
 
-function LocationMarker({ goToCurrentPosition }: Props) {
+function LocationMarker({ toPositionType, targetPosition }: Props) {
   const [position, setPosition] = useState<LatLng | null>(null);
 
-  const [goToCurrent, setGoToCurrent] = useState(false);
+  const [toPosition, setToPosition] = useState<PositionType>(
+    PositionType.default
+  );
 
   const map = useMap();
 
   useEffect(() => {
-    setGoToCurrent(goToCurrentPosition);
-  }, [goToCurrentPosition]);
+    setToPosition(toPositionType);
+  }, [toPositionType]);
 
   useEffect(() => {
-    if (goToCurrent) {
+    if (toPosition === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
@@ -42,8 +46,12 @@ function LocationMarker({ goToCurrentPosition }: Props) {
         //   circle.addTo(map);
         //   setBbox(e.bounds.toBBoxString().split(","));
       });
+    } else if (toPosition === PositionType.newPosition && targetPosition) {
+      map.flyTo([targetPosition.lat, targetPosition.lon], map.getZoom());
+    } else {
+      map.flyTo([defaultPosition.lat, defaultPosition.lon], map.getZoom());
     }
-  }, [map, goToCurrent]);
+  }, [map, toPosition]);
 
   return position === null ? null : (
     <Marker position={position}>
@@ -53,19 +61,29 @@ function LocationMarker({ goToCurrentPosition }: Props) {
 }
 
 export default function MapLayout() {
-  const [goToCurrentPosition, setGoToCurrentPosition] = useState(false);
+  const [toPositionType, setToPositionType] = useState<PositionType>(
+    PositionType.default
+  );
 
-  const [geoPosition, setGeoPosition] =
-    useState<GeoPosition>(defaultGeoPosition);
+  const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
-  useEffect(() => {
-    setGeoPosition(defaultGeoPosition);
-  }, []);
+  // const [storePosition, setStorePosition] = useMapStore((state) => [
+  //   state.position,
+  //   state.setPosition,
+  // ]);
+
+  // useEffect(() => {
+  //   setPosition(storePosition);
+  // }, []);
+
+  // useEffect(() => {
+  //   setStorePosition(position);
+  // }, [position]);
 
   return (
     <div className="w-screen h-screen ">
       <MapContainer
-        center={[defaultGeoPosition.lat, defaultGeoPosition.lon]}
+        center={[position.lat, position.lon]}
         zoom={13}
         scrollWheelZoom={true}
       >
@@ -73,31 +91,37 @@ export default function MapLayout() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[defaultGeoPosition.lat, defaultGeoPosition.lon]}>
+        <Marker position={[position.lat, position.lon]}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
 
-        <LocationMarker goToCurrentPosition={goToCurrentPosition} />
+        <LocationMarker
+          toPositionType={toPositionType}
+          targetPosition={position}
+        />
         <ZoomControl position="topright" />
       </MapContainer>
 
       <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
         <NavLocationButton
-          onClick={() => setGoToCurrentPosition(false)}
+          onClick={() => {
+            setToPositionType(PositionType.default);
+            setPosition(defaultPosition);
+          }}
           iconElement={<DefaultLocationIcon />}
         />
 
         <NavLocationButton
-          onClick={() => setGoToCurrentPosition(true)}
+          onClick={() => setToPositionType(PositionType.userCurrent)}
           iconElement={<CurrentLocationIcon />}
         />
       </div>
 
       <Navigation
         onClickRestaurants={async () => {
-          const response = await fetchPlaces(Category.restaurant, geoPosition);
+          const response = await fetchPlaces(Category.restaurant, position);
           console.log(JSON.stringify(response));
         }}
       />
