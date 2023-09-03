@@ -11,6 +11,11 @@ import {
 import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
+import { GeoPosition } from "./types";
+import { Category } from "./enums";
+import { defaultGeoPosition } from "./constants";
+import NavLocationButton from "./NavLocationButton";
+import DefaultLocationIcon from "./DefaultLocationIcon";
 
 type Props = {
   goToCurrentPosition: boolean;
@@ -50,14 +55,25 @@ function LocationMarker({ goToCurrentPosition }: Props) {
 export default function MapLayout() {
   const [goToCurrentPosition, setGoToCurrentPosition] = useState(false);
 
+  const [geoPosition, setGeoPosition] =
+    useState<GeoPosition>(defaultGeoPosition);
+
+  useEffect(() => {
+    setGeoPosition(defaultGeoPosition);
+  }, []);
+
   return (
     <div className="w-screen h-screen ">
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
+      <MapContainer
+        center={[defaultGeoPosition.lat, defaultGeoPosition.lon]}
+        zoom={13}
+        scrollWheelZoom={true}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
+        <Marker position={[defaultGeoPosition.lat, defaultGeoPosition.lon]}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
@@ -67,18 +83,21 @@ export default function MapLayout() {
         <ZoomControl position="topright" />
       </MapContainer>
 
-      <button
-        className="fixed w-14 aspect-square flex items-center place-content-center bottom-64 right-8 lg:bottom-24 lg:right-24 bg-white p-2 rounded-full"
-        onClick={() => setGoToCurrentPosition(true)}
-      >
-        <CurrentLocationIcon />
-      </button>
+      <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
+        <NavLocationButton
+          onClick={() => setGoToCurrentPosition(false)}
+          iconElement={<DefaultLocationIcon />}
+        />
+
+        <NavLocationButton
+          onClick={() => setGoToCurrentPosition(true)}
+          iconElement={<CurrentLocationIcon />}
+        />
+      </div>
 
       <Navigation
-        onClick={async () => {
-          const response = await fetchPlaces(
-            `node[amenity=school](around:10000, 51.505, -0.09);`
-          );
+        onClickRestaurants={async () => {
+          const response = await fetchPlaces(Category.restaurant, geoPosition);
           console.log(JSON.stringify(response));
         }}
       />
