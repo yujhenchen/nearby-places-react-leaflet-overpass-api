@@ -1,22 +1,13 @@
 import { Category } from "../libs/enums";
-import { GeoPosition } from "../libs/types";
+import { GeoPosition, PlaceNode } from "../libs/types";
 
 const BASE_URL = "https://overpass-api.de/api/interpreter";
-
-type Elements = {
-    lat: number;
-    lon: number;
-    tags: {
-        name: string;
-        website: string;
-    };
-};
 
 export const fetchPlaces = async (
     category: Category,
     position: GeoPosition,
     // box: string
-): Promise<Elements[] | boolean> => {
+): Promise<PlaceNode[]> => {
     try {
 
         const query = `
@@ -40,7 +31,7 @@ export const fetchPlaces = async (
         return data.elements;
     } catch (err) {
         console.error(`fetchMarkers Error: ${JSON.stringify(err)}`);
-        return false;
+        return [];
     }
 };
 

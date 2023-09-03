@@ -4,9 +4,9 @@ import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
 import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
-import { GeoPosition } from "./libs/types";
+import { GeoPosition, PlaceNode } from "./libs/types";
 import { Category, PositionType } from "./libs/enums";
-import { defaultPosition } from "./libs/constants";
+import { defaultPosition, displayedPlaceCount } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import DefaultLocationIcon from "./DefaultLocationIcon";
 import MapMarker from "./MapMarker";
@@ -62,6 +62,8 @@ export default function MapLayout() {
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
+  const [restaurants, setRestaurants] = useState<PlaceNode[]>([]);
+
   // const [storePosition, setStorePosition] = useMapStore((state) => [
   //   state.position,
   //   state.setPosition,
@@ -92,6 +94,14 @@ export default function MapLayout() {
           text={"You are here"}
         />
 
+        {restaurants.map((restaurant) => (
+          <MapMarker
+            key={restaurant.id}
+            position={{ lat: restaurant.lat, lon: restaurant.lon }}
+            text={restaurant.tags.name}
+          />
+        ))}
+
         <LocationMarker
           toPositionType={toPositionType}
           targetPosition={position}
@@ -116,8 +126,8 @@ export default function MapLayout() {
 
       <Navigation
         onClickRestaurants={async () => {
-          const response = await fetchPlaces(Category.restaurant, position);
-          console.log(JSON.stringify(response));
+          const restaurants = await fetchPlaces(Category.restaurant, position);
+          setRestaurants(restaurants.slice(0, displayedPlaceCount));
         }}
       />
     </div>
