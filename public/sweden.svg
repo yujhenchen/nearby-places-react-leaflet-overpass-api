@@ -1,6 +1,4 @@
-export default function DefaultLocationIcon() {
-  return (
-    <svg
+ <svg
       className="w-full aspect-square"
       viewBox="0 0 36 36"
       xmlns="http://www.w3.org/2000/svg"
@@ -11,5 +9,3 @@ export default function DefaultLocationIcon() {
       />
       <path fill="#FECC00" d="M15.5 5h-5v10.5H0v5h10.5V31h5V20.5H36v-5H15.5z" />
     </svg>
-  );
-}

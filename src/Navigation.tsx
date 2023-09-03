@@ -10,17 +10,13 @@ export default function Navigation({ onClickRestaurants }: Props) {
         className="text-gray-900 w-fit shadow-lg flex space-x-2 items-center bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         onClick={onClickRestaurants}
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill="#6b7280"
-            d="M7 22v-9.15q-1.275-.35-2.138-1.4T4 9V2h2v7h1V2h2v7h1V2h2v7q0 1.4-.863 2.45T9 12.85V22H7Zm10 0v-8h-3V7q0-2.075 1.463-3.538T19 2v20h-2Z"
+        <div className="flex items-center place-content-center w-8">
+          <img
+            src={"./restaurant.svg"}
+            alt="Restaurant Icon"
+            className="w-full h-full object-contain"
           />
-        </svg>
+        </div>
         <span>Restaurants</span>
       </button>
     </nav>

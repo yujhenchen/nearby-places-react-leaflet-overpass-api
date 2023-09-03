@@ -1,16 +1,15 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
-import CurrentLocationIcon from "./CurrentLocationIcon";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
 import { GeoPosition, PlaceNode } from "./libs/types";
 import { Category, PositionType } from "./libs/enums";
 import { defaultPosition, displayedPlaceCount } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
-import DefaultLocationIcon from "./DefaultLocationIcon";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
+import CustomMapMarker from "./CustomMapMarker";
 // import useMapStore from "./store/useMapStore";
 
 type Props = {
@@ -96,10 +95,12 @@ export default function MapLayout() {
         />
 
         {restaurants.map((restaurant) => (
-          <MapMarker
+          <CustomMapMarker
             key={restaurant.id}
             position={{ lat: restaurant.lat, lon: restaurant.lon }}
+            imagePath="./restaurant.svg"
             text={restaurant.tags.name}
+            backgroundColor="bg-orange-300"
           />
         ))}
 
@@ -116,12 +117,14 @@ export default function MapLayout() {
             setToPositionType(PositionType.default);
             setPosition(defaultPosition);
           }}
-          iconElement={<DefaultLocationIcon />}
+          iconPath="./sweden.svg"
+          iconAlt="Sweden Icon"
         />
 
         <NavLocationButton
           onClick={() => setToPositionType(PositionType.userCurrent)}
-          iconElement={<CurrentLocationIcon />}
+          iconPath="./current.svg"
+          iconAlt="Current Location Icon"
         />
       </div>
 
