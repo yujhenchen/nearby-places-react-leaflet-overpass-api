@@ -4,7 +4,11 @@ import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
 import { GeoPosition, PlaceNode } from "./libs/types";
 import { Category, PositionType } from "./libs/enums";
-import { defaultPosition, displayedPlaceCount } from "./libs/constants";
+import {
+  YOU_ARE_HERE,
+  defaultPosition,
+  displayedPlaceCount,
+} from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
@@ -47,10 +51,6 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
       map.locate().on("locationfound", function (e) {
         setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         map.flyTo(e.latlng, map.getZoom());
-        //   const radius = e.accuracy;
-        //   const circle = L.circle(e.latlng, radius);
-        //   circle.addTo(map);
-        //   setBbox(e.bounds.toBBoxString().split(","));
       });
     } else if (toPosition === PositionType.newPosition && targetPosition) {
       map.flyTo([targetPosition.lat, targetPosition.lon], map.getZoom());
@@ -62,7 +62,7 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
   return position === null ? null : (
     <MapMarker
       position={{ lat: position.lat, lon: position.lon }}
-      text={"You are here"}
+      text={YOU_ARE_HERE}
     />
   );
 }

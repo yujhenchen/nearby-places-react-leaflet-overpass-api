@@ -11,7 +11,7 @@ export default function NavLocationButton({
 }: Props) {
   return (
     <button
-      className="w-10 aspect-square flex items-center place-content-center bg-white p-2 rounded-full shadow-lg"
+      className="w-10 aspect-square flex items-center place-content-center bg-gray-100 p-2 rounded-full shadow-lg"
       onClick={onClick}
     >
       <img

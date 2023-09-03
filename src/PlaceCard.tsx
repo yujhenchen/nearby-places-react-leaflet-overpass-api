@@ -6,7 +6,7 @@ type Props = {
 
 export default function PlaceCard({ distance, name, opening_hours }: Props) {
   return (
-    <div className="w-40 h-full aspect-square flex flex-col space-y-1 bg-gray-100 p-2 text-xs lg:text-sm lg:w-full lg:h-40 hover:shadow-lg duration-300 lg:overflow-y-hidden hover:overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 hover:duration-300">
+    <div className="w-52 h-full aspect-[4/3] rounded-lg flex flex-col space-y-1 bg-gray-100 px-4 py-2 text-xs lg:text-sm lg:w-full lg:h-40 hover:shadow-lg duration-300 lg:overflow-y-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:duration-300">
       <span>
         <b>Name:</b> {name}
       </span>

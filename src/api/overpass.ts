@@ -6,7 +6,6 @@ const BASE_URL = "https://overpass-api.de/api/interpreter";
 export const fetchPlaces = async (
     category: Category,
     position: GeoPosition,
-    // box: string
 ): Promise<PlaceNode[]> => {
     try {
 
