@@ -10,6 +10,7 @@ import { defaultPosition, displayedPlaceCount } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import DefaultLocationIcon from "./DefaultLocationIcon";
 import MapMarker from "./MapMarker";
+import PlaceContainer from "./PlaceContainer";
 // import useMapStore from "./store/useMapStore";
 
 type Props = {
@@ -78,7 +79,7 @@ export default function MapLayout() {
   // }, [position]);
 
   return (
-    <div className="w-screen h-screen ">
+    <div className="w-screen h-screen">
       <MapContainer
         center={[position.lat, position.lon]}
         zoom={13}
@@ -126,10 +127,15 @@ export default function MapLayout() {
 
       <Navigation
         onClickRestaurants={async () => {
-          const restaurants = await fetchPlaces(Category.restaurant, position);
+          const restaurants: PlaceNode[] = await fetchPlaces(
+            Category.restaurant,
+            position
+          );
           setRestaurants(restaurants.slice(0, displayedPlaceCount));
         }}
       />
+
+      <PlaceContainer currentPosition={position} places={restaurants} />
     </div>
   );
 }
