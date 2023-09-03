@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ["Verdana", "sans-serif"],
+    },
   },
   // eslint-disable-next-line no-undef
   plugins: [require("flowbite/plugin"), require("tailwind-scrollbar")],
