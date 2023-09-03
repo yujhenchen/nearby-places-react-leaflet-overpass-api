@@ -1,15 +1,9 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
-// import CurrentLocationButton from "./CurrentLocationButton";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMap,
-  //   useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import CurrentLocationIcon from "./CurrentLocationIcon";
+import { fetchPlaces } from "./api/overpass";
+import Navigation from "./Navigation";
 
 type Props = {
   goToCurrentPosition: boolean;
@@ -72,6 +66,15 @@ export default function MapLayout() {
       >
         <CurrentLocationIcon />
       </button>
+
+      <Navigation
+        onClick={async () => {
+          const response = await fetchPlaces(
+            `node[amenity=school](around:10000, 51.505, -0.09);`
+          );
+          console.log(JSON.stringify(response));
+        }}
+      />
     </div>
   );
 }
