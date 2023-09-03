@@ -1,4 +1,3 @@
-import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
 import { fetchPlaces } from "./api/overpass";
@@ -10,7 +9,7 @@ import NavLocationButton from "./NavLocationButton";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
-// import useMapStore from "./store/useMapStore";
+import useMapStore from "./store/useMapStore";
 
 type Props = {
   toPositionType: PositionType;
@@ -18,11 +17,24 @@ type Props = {
 };
 
 function LocationMarker({ toPositionType, targetPosition }: Props) {
-  const [position, setPosition] = useState<LatLng | null>(null);
+  const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
   const [toPosition, setToPosition] = useState<PositionType>(
     PositionType.default
   );
+
+  const [storePosition, setStorePosition] = useMapStore((state) => [
+    state.position,
+    state.setPosition,
+  ]);
+
+  useEffect(() => {
+    setPosition(storePosition);
+  }, []);
+
+  useEffect(() => {
+    setStorePosition(position);
+  }, [position]);
 
   const map = useMap();
 
@@ -33,7 +45,7 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
   useEffect(() => {
     if (toPosition === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
-        setPosition(e.latlng);
+        setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         map.flyTo(e.latlng, map.getZoom());
         //   const radius = e.accuracy;
         //   const circle = L.circle(e.latlng, radius);
@@ -49,7 +61,7 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
 
   return position === null ? null : (
     <MapMarker
-      position={{ lat: position.lat, lon: position.lng }}
+      position={{ lat: position.lat, lon: position.lon }}
       text={"You are here"}
     />
   );
@@ -64,18 +76,18 @@ export default function MapLayout() {
 
   const [restaurants, setRestaurants] = useState<PlaceNode[]>([]);
 
-  // const [storePosition, setStorePosition] = useMapStore((state) => [
-  //   state.position,
-  //   state.setPosition,
-  // ]);
+  const [storePosition, setStorePosition] = useMapStore((state) => [
+    state.position,
+    state.setPosition,
+  ]);
 
-  // useEffect(() => {
-  //   setPosition(storePosition);
-  // }, []);
+  useEffect(() => {
+    setPosition(storePosition);
+  }, [storePosition]);
 
-  // useEffect(() => {
-  //   setStorePosition(position);
-  // }, [position]);
+  useEffect(() => {
+    setStorePosition(position);
+  }, [position]);
 
   return (
     <div className="w-screen h-screen">
@@ -114,6 +126,7 @@ export default function MapLayout() {
       <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
         <NavLocationButton
           onClick={() => {
+            setRestaurants([]);
             setToPositionType(PositionType.default);
             setPosition(defaultPosition);
           }}
@@ -122,7 +135,10 @@ export default function MapLayout() {
         />
 
         <NavLocationButton
-          onClick={() => setToPositionType(PositionType.userCurrent)}
+          onClick={() => {
+            setRestaurants([]);
+            setToPositionType(PositionType.userCurrent);
+          }}
           iconPath="./current.svg"
           iconAlt="Current Location Icon"
         />
