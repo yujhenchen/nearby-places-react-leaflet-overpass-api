@@ -27,7 +27,13 @@ export default function PlaceContainer({
           <PlaceCard
             key={place.id}
             onShowDetails={(id) =>
-              setShowDetailsCards((cards) => [...cards, id])
+              setShowDetailsCards((cards) => {
+                if (cards.indexOf(id, 0) > -1) {
+                  return [...cards];
+                } else {
+                  return [...cards, id];
+                }
+              })
             }
             onCloseDetails={(id) => {
               setShowDetailsCards((cards) => {
