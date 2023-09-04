@@ -86,6 +86,8 @@ export default function MapLayout() {
     null
   );
 
+  const [selectedCardId, setSelectedCardId] = useState<string>("");
+
   useEffect(() => {
     setPosition(storePosition);
   }, [storePosition]);
@@ -118,6 +120,9 @@ export default function MapLayout() {
         {restaurants.map((restaurant) => (
           <CustomMapMarker
             key={restaurant.id}
+            isCardSelected={
+              selectedCardId === restaurant.id.toString() ? true : false
+            }
             position={{ lat: restaurant.lat, lon: restaurant.lon }}
             imagePath="./restaurant.svg"
             text={restaurant.tags.name}
@@ -168,6 +173,7 @@ export default function MapLayout() {
         currentPosition={position}
         places={restaurants}
         selectedPosition={selectedPosition}
+        onclickCard={(id) => setSelectedCardId(id)}
       />
     </div>
   );

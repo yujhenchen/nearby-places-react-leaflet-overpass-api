@@ -7,12 +7,14 @@ type Props = {
   currentPosition: GeoPosition;
   places: PlaceNode[];
   selectedPosition: GeoPosition | null;
+  onclickCard: (id: string) => void;
 };
 
 export default function PlaceContainer({
   currentPosition,
   places,
   selectedPosition,
+  onclickCard,
 }: Props) {
   const [showDetailsCards, setShowDetailsCards] = useState<string[]>([]);
 
@@ -36,6 +38,7 @@ export default function PlaceContainer({
         {places.map((place) => (
           <PlaceCard
             key={place.id}
+            onclickCard={onclickCard}
             onShowDetails={onShowDetails}
             onCloseDetails={onCloseDetails}
             isSelected={
