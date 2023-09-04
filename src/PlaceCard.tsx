@@ -24,11 +24,9 @@ export default function PlaceCard({
       id="card"
       data-tooltip-target="tooltip-light"
       data-tooltip-style="light"
-      className={
-        isSelected
-          ? "relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 scale-110 bg-gray-100 px-4 py-2 text-sm shadow-lg duration-300"
-          : "relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 bg-gray-100 px-4 py-2 text-sm hover:shadow-lg duration-300"
-      }
+      className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-gray-100 ${
+        isSelected ? "scale-110 shadow-lg" : "hover:shadow-lg"
+      }`}
     >
       <span id="place_name" className="text-base">
         {name}
@@ -46,7 +44,7 @@ export default function PlaceCard({
       </button>
 
       {showDetails ? (
-        <div className="absolute right-0 bottom-full lg:left-40 lg:top-0 z-10 h-56 lg:h-fit w-48 overflow-x-auto overflow-y-auto rounded-lg flex flex-col space-y-1 bg-gray-100 px-4 py-2 text-sm shadow-xl duration-300">
+        <div className="absolute right-0 bottom-full lg:left-40 lg:top-0 z-10 h-56 lg:h-fit w-48 overflow-x-auto overflow-y-auto rounded-lg flex flex-col space-y-1 bg-white px-4 py-2 text-sm shadow-xl duration-300">
           <button
             id="close_card_details_button"
             type="button"
