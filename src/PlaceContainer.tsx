@@ -16,6 +16,16 @@ export default function PlaceContainer({
 }: Props) {
   const [showDetailsCards, setShowDetailsCards] = useState<string[]>([]);
 
+  function onShowDetails(id: string): void {
+    setShowDetailsCards((cards) =>
+      cards.find((cardId) => id === cardId) ? [...cards] : [...cards, id]
+    );
+  }
+
+  function onCloseDetails(id: string): void {
+    setShowDetailsCards((cards) => cards.filter((cardId) => id !== cardId));
+  }
+
   if (places.length > 0) {
     return (
       <section
@@ -26,24 +36,8 @@ export default function PlaceContainer({
         {places.map((place) => (
           <PlaceCard
             key={place.id}
-            onShowDetails={(id) =>
-              setShowDetailsCards((cards) => {
-                if (cards.indexOf(id, 0) > -1) {
-                  return [...cards];
-                } else {
-                  return [...cards, id];
-                }
-              })
-            }
-            onCloseDetails={(id) => {
-              setShowDetailsCards((cards) => {
-                const index = cards.indexOf(id, 0);
-                if (index > -1) {
-                  cards = cards.splice(index, 1);
-                }
-                return cards;
-              });
-            }}
+            onShowDetails={onShowDetails}
+            onCloseDetails={onCloseDetails}
             isSelected={
               selectedPosition !== null &&
               selectedPosition.lat === place.lat &&
