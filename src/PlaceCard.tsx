@@ -49,7 +49,7 @@ export default function PlaceCard({
       </span>
 
       <button
-        className="font-medium text-xs text-gray-600 dark:text-blue-500 hover:underline"
+        className="font-medium text-xs text-blue-600 dark:text-blue-500 hover:font-semibold hover:ease-out duration-300"
         onClick={() => {
           setShowDetails(true);
           onShowDetails(id);
