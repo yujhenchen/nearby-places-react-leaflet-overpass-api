@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GeoPosition } from "./libs/types";
+import { THIS_IS_A_SECRET_PLACE } from "./libs/constants";
 
 type Props = {
   onclickCard: (position: GeoPosition) => void;
@@ -41,7 +42,7 @@ export default function PlaceCard({
       onClick={() => onclickCard(position)}
     >
       <span id="place_name" className="text-base">
-        {name}
+        {!name || name.trim().length < 0 ? THIS_IS_A_SECRET_PLACE : name}
       </span>
       <span>
         <b>Distance:</b> {distance} km

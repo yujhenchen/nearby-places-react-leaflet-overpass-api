@@ -90,33 +90,30 @@ export default function MapLayout() {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
   };
 
-  const onClickRestaurants = async () => {
-    const places: PlaceNode[] = await fetchPlaces(
-      Category.restaurant,
-      position
-    );
+  const onClickPlaceCategory = async (category: Category) => {
+    const places: PlaceNode[] = await fetchPlaces(category, position);
     setPlaces(places.slice(0, displayedPlaceCount));
-    setMarkerIconProps(markerIconPropsDict[Category.restaurant]);
-  };
-
-  const onClickLibraries = async () => {
-    const places: PlaceNode[] = await fetchPlaces(Category.library, position);
-    setPlaces(places.slice(0, displayedPlaceCount));
-    setMarkerIconProps(markerIconPropsDict[Category.library]);
+    setMarkerIconProps(markerIconPropsDict[category]);
   };
 
   const navButtonProps: NavButtonProps[] = [
     {
-      onClick: onClickRestaurants,
+      onClick: () => onClickPlaceCategory(Category.restaurant),
       imgSrc: "./restaurant.svg",
       imgAlt: "Restaurant Icon",
       text: "Restaurants",
     },
     {
-      onClick: onClickLibraries,
+      onClick: () => onClickPlaceCategory(Category.library),
       imgSrc: "./library.svg",
       imgAlt: "Library Icon",
       text: "Libraries",
+    },
+    {
+      onClick: () => onClickPlaceCategory(Category.bbq),
+      imgSrc: "./bbq.svg",
+      imgAlt: "BBQ Icon",
+      text: "BBQs",
     },
   ];
 

@@ -2,6 +2,7 @@ import { Marker, Popup } from "react-leaflet";
 import { GeoPosition } from "./libs/types";
 import { renderToStaticMarkup } from "react-dom/server";
 import { LeafletMouseEvent, divIcon } from "leaflet";
+import { THIS_IS_A_SECRET_PLACE } from "./libs/constants";
 
 type Props = {
   isCardSelected: boolean;
@@ -47,7 +48,9 @@ export default function CustomMapMarker({
         },
       }}
     >
-      <Popup>{text}</Popup>
+      <Popup>
+        {!text || text.trim().length < 0 ? THIS_IS_A_SECRET_PLACE : text}
+      </Popup>
     </Marker>
   );
 }
