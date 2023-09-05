@@ -6,8 +6,8 @@ import { LeafletMouseEvent, divIcon } from "leaflet";
 type Props = {
   isCardSelected: boolean;
   position: GeoPosition;
-  imagePath: string;
   text: string;
+  imagePath: string;
   backgroundColor: string;
   onClickMarker: (event: LeafletMouseEvent) => void;
 };
@@ -15,8 +15,8 @@ type Props = {
 export default function CustomMapMarker({
   isCardSelected,
   position,
-  imagePath,
   text,
+  imagePath,
   backgroundColor,
   onClickMarker,
 }: Props) {

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
-import { GeoPosition, PlaceNode } from "./libs/types";
+import { GeoPosition, MarkerIconProps, PlaceNode } from "./libs/types";
 import { Category, PositionType } from "./libs/enums";
 import {
   YOU_ARE_HERE,
   defaultPosition,
   displayedPlaceCount,
+  markerIconPropsDict,
 } from "./libs/constants";
 import NavLocationButton from "./NavLocationButton";
 import MapMarker from "./MapMarker";
@@ -71,6 +72,10 @@ export default function MapLayout() {
     null
   );
 
+  const [markerIconProps, setMarkerIconProps] = useState<MarkerIconProps>(
+    markerIconPropsDict[Category.restaurant]
+  );
+
   useEffect(() => {
     setPosition(storePosition);
     setFlyToPositionType(storeFlyToPositionType);
@@ -108,9 +113,9 @@ export default function MapLayout() {
                 : false
             }
             position={{ lat: place.lat, lon: place.lon }}
-            imagePath="./restaurant.svg"
             text={place.tags.name}
-            backgroundColor="bg-orange-300"
+            imagePath={markerIconProps.imagePath}
+            backgroundColor={markerIconProps.backgroundColor}
             onClickMarker={onClickCustomMapMarker}
           />
         ))}
@@ -153,6 +158,15 @@ export default function MapLayout() {
             position
           );
           setPlaces(places.slice(0, displayedPlaceCount));
+          setMarkerIconProps(markerIconPropsDict[Category.restaurant]);
+        }}
+        onClickLibraries={async () => {
+          const places: PlaceNode[] = await fetchPlaces(
+            Category.library,
+            position
+          );
+          setPlaces(places.slice(0, displayedPlaceCount));
+          setMarkerIconProps(markerIconPropsDict[Category.library]);
         }}
       />
 

@@ -1,5 +1,6 @@
 export enum Category {
     restaurant = 'restaurant',
+    library = 'library',
     school = 'school',
     park = 'park',
 }

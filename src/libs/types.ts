@@ -27,3 +27,8 @@ export type PlaceNode = {
     lon: number;
     tags: PlaceNodeTags;
 }
+
+export type MarkerIconProps = {
+    imagePath: string;
+    backgroundColor: string;
+}
