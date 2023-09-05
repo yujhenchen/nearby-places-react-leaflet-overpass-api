@@ -22,7 +22,7 @@ export default function CustomMapMarker({
 }: Props) {
   const iconMarkup = renderToStaticMarkup(
     <div
-      className={`flex items-center place-content-center rounded-full p-1 ${backgroundColor} ${
+      className={`flex items-center place-content-center rounded-full p-1 -translate-y-2 -translate-x-2 ${backgroundColor} ${
         isCardSelected ? "w-12 shadow-lg" : "w-8 shadow-md"
       }`}
     >
