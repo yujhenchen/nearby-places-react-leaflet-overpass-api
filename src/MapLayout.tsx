@@ -24,10 +24,6 @@ type Props = {
 function LocationMarker({ toPositionType, targetPosition }: Props) {
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
-  const [toPosition, setToPosition] = useState<PositionType>(
-    PositionType.default
-  );
-
   const [storePosition, setStorePosition] = useMapStore((state) => [
     state.position,
     state.setPosition,
@@ -44,21 +40,17 @@ function LocationMarker({ toPositionType, targetPosition }: Props) {
   const map = useMap();
 
   useEffect(() => {
-    setToPosition(toPositionType);
-  }, [toPositionType]);
-
-  useEffect(() => {
-    if (toPosition === PositionType.userCurrent) {
+    if (toPositionType === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
         setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         map.flyTo(e.latlng, map.getZoom());
       });
-    } else if (toPosition === PositionType.newPosition && targetPosition) {
+    } else if (toPositionType === PositionType.newPosition && targetPosition) {
       map.flyTo([targetPosition.lat, targetPosition.lon], map.getZoom());
     } else {
       map.flyTo([defaultPosition.lat, defaultPosition.lon], map.getZoom());
     }
-  }, [map, toPosition]);
+  }, [map, toPositionType]);
 
   return position === null ? null : (
     <MapMarker
@@ -75,7 +67,7 @@ export default function MapLayout() {
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
-  const [restaurants, setRestaurants] = useState<PlaceNode[]>([]);
+  const [places, setPlaces] = useState<PlaceNode[]>([]);
 
   const [storePosition, setStorePosition] = useMapStore((state) => [
     state.position,
@@ -86,8 +78,6 @@ export default function MapLayout() {
     null
   );
 
-  const [selectedCardId, setSelectedCardId] = useState<string>("");
-
   useEffect(() => {
     setPosition(storePosition);
   }, [storePosition]);
@@ -96,9 +86,9 @@ export default function MapLayout() {
     setStorePosition(position);
   }, [position]);
 
-  function onClickCustomMapMarker(event: LeafletMouseEvent): void {
+  const onClickCustomMapMarker = (event: LeafletMouseEvent): void => {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
-  }
+  };
 
   return (
     <div className="w-screen h-screen">
@@ -117,15 +107,19 @@ export default function MapLayout() {
           text={"You are here"}
         />
 
-        {restaurants.map((restaurant) => (
+        {places.map((place) => (
           <CustomMapMarker
-            key={restaurant.id}
+            key={place.id}
             isCardSelected={
-              selectedCardId === restaurant.id.toString() ? true : false
+              selectedPosition !== null &&
+              selectedPosition.lat === place.lat &&
+              selectedPosition.lon === place.lon
+                ? true
+                : false
             }
-            position={{ lat: restaurant.lat, lon: restaurant.lon }}
+            position={{ lat: place.lat, lon: place.lon }}
             imagePath="./restaurant.svg"
-            text={restaurant.tags.name}
+            text={place.tags.name}
             backgroundColor="bg-orange-300"
             onClickMarker={onClickCustomMapMarker}
           />
@@ -141,7 +135,7 @@ export default function MapLayout() {
       <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
         <NavLocationButton
           onClick={() => {
-            setRestaurants([]);
+            setPlaces([]);
             setToPositionType(PositionType.default);
             setPosition(defaultPosition);
           }}
@@ -151,7 +145,7 @@ export default function MapLayout() {
 
         <NavLocationButton
           onClick={() => {
-            setRestaurants([]);
+            setPlaces([]);
             setToPositionType(PositionType.userCurrent);
           }}
           iconPath="./current.svg"
@@ -161,19 +155,19 @@ export default function MapLayout() {
 
       <Navigation
         onClickRestaurants={async () => {
-          const restaurants: PlaceNode[] = await fetchPlaces(
+          const places: PlaceNode[] = await fetchPlaces(
             Category.restaurant,
             position
           );
-          setRestaurants(restaurants.slice(0, displayedPlaceCount));
+          setPlaces(places.slice(0, displayedPlaceCount));
         }}
       />
 
       <PlaceContainer
         currentPosition={position}
-        places={restaurants}
+        places={places}
         selectedPosition={selectedPosition}
-        onclickCard={(id) => setSelectedCardId(id)}
+        onclickCard={(position) => setSelectedPosition(position)}
       />
     </div>
   );

@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { GeoPosition } from "./libs/types";
 
 type Props = {
-  onclickCard: (id: string) => void;
+  onclickCard: (position: GeoPosition) => void;
   onShowDetails: (id: string) => void;
   onCloseDetails: (id: string) => void;
   isSelected: boolean;
+  position: GeoPosition;
   distance: number;
   id: string;
   name: string;
@@ -18,6 +20,7 @@ export default function PlaceCard({
   onShowDetails,
   onCloseDetails,
   isSelected,
+  position,
   distance,
   id,
   name,
@@ -35,7 +38,7 @@ export default function PlaceCard({
       className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-gray-100 ${
         isSelected ? "scale-110 shadow-lg" : "hover:shadow-lg"
       }`}
-      onClick={() => onclickCard(id)}
+      onClick={() => onclickCard(position)}
     >
       <span id="place_name" className="text-base">
         {name}

@@ -2,7 +2,6 @@ import { Marker, Popup } from "react-leaflet";
 import { GeoPosition } from "./libs/types";
 import { renderToStaticMarkup } from "react-dom/server";
 import { LeafletMouseEvent, divIcon } from "leaflet";
-import { useEffect, useState } from "react";
 
 type Props = {
   isCardSelected: boolean;
@@ -21,16 +20,10 @@ export default function CustomMapMarker({
   backgroundColor,
   onClickMarker,
 }: Props) {
-  const [cardSelected, setCardSelected] = useState(false);
-
-  useEffect(() => {
-    setCardSelected(isCardSelected);
-  }, [isCardSelected]);
-
   const iconMarkup = renderToStaticMarkup(
     <div
       className={`flex items-center place-content-center rounded-full p-1 ${backgroundColor} ${
-        cardSelected ? "w-12 shadow-lg" : "w-8 shadow-md"
+        isCardSelected ? "w-12 shadow-lg" : "w-8 shadow-md"
       }`}
     >
       <img
