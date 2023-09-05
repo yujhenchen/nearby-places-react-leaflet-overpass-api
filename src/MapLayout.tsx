@@ -21,6 +21,7 @@ import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
 import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
+import Loading from "./Loading";
 
 type Props = {
   flyToPositionType: PositionType;
@@ -61,6 +62,8 @@ export default function MapLayout() {
 
   const [places, setPlaces] = useState<PlaceNode[]>([]);
 
+  const [showLoading, setShowLoading] = useState(false);
+
   const [
     storePosition,
     storeFlyToPositionType,
@@ -91,9 +94,11 @@ export default function MapLayout() {
   };
 
   const onClickPlaceCategory = async (category: Category) => {
+    setShowLoading(true);
     const places: PlaceNode[] = await fetchPlaces(category, position);
     setPlaces(places.slice(0, displayedPlaceCount));
     setMarkerIconProps(markerIconPropsDict[category]);
+    setShowLoading(false);
   };
 
   const navButtonProps: NavButtonProps[] = [
@@ -191,6 +196,8 @@ export default function MapLayout() {
         selectedPosition={selectedPosition}
         onclickCard={(position) => setSelectedPosition(position)}
       />
+
+      {showLoading ? <Loading /> : null}
     </div>
   );
 }
