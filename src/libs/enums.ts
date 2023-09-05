@@ -5,7 +5,6 @@ export enum Category {
 }
 
 export enum PositionType {
-    default = 'default',
     userCurrent = 'user',
     newPosition = 'new'
 }

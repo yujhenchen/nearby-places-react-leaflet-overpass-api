@@ -2,16 +2,19 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { GeoPosition, MapState } from '../libs/types';
 import { defaultPosition } from '../libs/constants';
+import { PositionType } from '../libs/enums';
 
 const useMapStore = create<MapState>()(
     persist(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (set, _get) => ({
+            flyToPositionType: PositionType.newPosition,
             position: {
                 lat: defaultPosition.lat,
                 lon: defaultPosition.lon,
             },
             setPosition: (position: GeoPosition) => set({ position: position }),
+            setFlyToPositionType: (flyToType: PositionType) => set({ flyToPositionType: flyToType }),
         }),
 
         {

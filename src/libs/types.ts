@@ -1,11 +1,15 @@
+import { PositionType } from "./enums";
+
 export type GeoPosition = {
     lat: number;
     lon: number;
 }
 
 export type MapState = {
+    flyToPositionType: PositionType;
     position: GeoPosition;
-    setPosition: (_position: GeoPosition) => void;
+    setPosition: (position: GeoPosition) => void;
+    setFlyToPositionType: (flyToType: PositionType) => void;
 }
 
 export type PlaceNodeTags = {

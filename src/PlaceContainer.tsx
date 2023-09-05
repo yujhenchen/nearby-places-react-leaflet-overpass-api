@@ -18,15 +18,15 @@ export default function PlaceContainer({
 }: Props) {
   const [showDetailsCards, setShowDetailsCards] = useState<string[]>([]);
 
-  function onShowDetails(id: string): void {
+  const onShowDetails = (id: string): void => {
     setShowDetailsCards((cards) =>
       cards.find((cardId) => id === cardId) ? [...cards] : [...cards, id]
     );
-  }
+  };
 
-  function onCloseDetails(id: string): void {
+  const onCloseDetails = (id: string): void => {
     setShowDetailsCards((cards) => cards.filter((cardId) => id !== cardId));
-  }
+  };
 
   return places.length > 0 ? (
     <section

@@ -17,61 +17,54 @@ import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 
 type Props = {
-  toPositionType: PositionType;
-  targetPosition: GeoPosition;
+  flyToPositionType: PositionType;
+  flyToPosition: GeoPosition;
 };
 
-function LocationMarker({ toPositionType, targetPosition }: Props) {
-  const [position, setPosition] = useState<GeoPosition>(defaultPosition);
-
-  const [storePosition, setStorePosition] = useMapStore((state) => [
-    state.position,
-    state.setPosition,
-  ]);
-
-  useEffect(() => {
-    setPosition(storePosition);
-  }, []);
-
-  useEffect(() => {
-    setStorePosition(position);
-  }, [position]);
+function LocationMarker({ flyToPositionType, flyToPosition }: Props) {
+  const [setStorePosition] = useMapStore((state) => [state.setPosition]);
 
   const map = useMap();
 
   useEffect(() => {
-    if (toPositionType === PositionType.userCurrent) {
+    if (flyToPositionType === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
-        setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         map.flyTo(e.latlng, map.getZoom());
+        setStorePosition({ lat: e.latlng.lat, lon: e.latlng.lng });
       });
-    } else if (toPositionType === PositionType.newPosition && targetPosition) {
-      map.flyTo([targetPosition.lat, targetPosition.lon], map.getZoom());
-    } else {
-      map.flyTo([defaultPosition.lat, defaultPosition.lon], map.getZoom());
+    } else if (flyToPositionType === PositionType.newPosition) {
+      map.flyTo([flyToPosition.lat, flyToPosition.lon], map.getZoom());
+      setStorePosition({ lat: flyToPosition.lat, lon: flyToPosition.lon });
     }
-  }, [map, toPositionType]);
+  }, [map, flyToPositionType]);
 
-  return position === null ? null : (
+  return flyToPosition === null ? null : (
     <MapMarker
-      position={{ lat: position.lat, lon: position.lon }}
+      position={{ lat: flyToPosition.lat, lon: flyToPosition.lon }}
       text={YOU_ARE_HERE}
     />
   );
 }
 
 export default function MapLayout() {
-  const [toPositionType, setToPositionType] = useState<PositionType>(
-    PositionType.default
+  const [flyToPositionType, setFlyToPositionType] = useState<PositionType>(
+    PositionType.newPosition
   );
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
   const [places, setPlaces] = useState<PlaceNode[]>([]);
 
-  const [storePosition, setStorePosition] = useMapStore((state) => [
+  const [
+    storePosition,
+    storeFlyToPositionType,
+    setStorePosition,
+    setStoreFlyToPositionType,
+  ] = useMapStore((state) => [
     state.position,
+    state.flyToPositionType,
     state.setPosition,
+    state.setFlyToPositionType,
   ]);
 
   const [selectedPosition, setSelectedPosition] = useState<GeoPosition | null>(
@@ -80,11 +73,8 @@ export default function MapLayout() {
 
   useEffect(() => {
     setPosition(storePosition);
-  }, [storePosition]);
-
-  useEffect(() => {
-    setStorePosition(position);
-  }, [position]);
+    setFlyToPositionType(storeFlyToPositionType);
+  }, [storePosition, storeFlyToPositionType]);
 
   const onClickCustomMapMarker = (event: LeafletMouseEvent): void => {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
@@ -126,8 +116,8 @@ export default function MapLayout() {
         ))}
 
         <LocationMarker
-          toPositionType={toPositionType}
-          targetPosition={position}
+          flyToPositionType={flyToPositionType}
+          flyToPosition={position}
         />
         <ZoomControl position="topright" />
       </MapContainer>
@@ -136,8 +126,10 @@ export default function MapLayout() {
         <NavLocationButton
           onClick={() => {
             setPlaces([]);
-            setToPositionType(PositionType.default);
+            setFlyToPositionType(PositionType.newPosition);
+            setStoreFlyToPositionType(PositionType.newPosition);
             setPosition(defaultPosition);
+            setStorePosition(defaultPosition);
           }}
           iconPath="./sweden.svg"
           iconAlt="Sweden Icon"
@@ -146,7 +138,8 @@ export default function MapLayout() {
         <NavLocationButton
           onClick={() => {
             setPlaces([]);
-            setToPositionType(PositionType.userCurrent);
+            setFlyToPositionType(PositionType.userCurrent);
+            setStoreFlyToPositionType(PositionType.userCurrent);
           }}
           iconPath="./current.svg"
           iconAlt="Current Location Icon"
