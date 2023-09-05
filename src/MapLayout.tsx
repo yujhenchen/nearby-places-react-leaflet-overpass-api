@@ -8,7 +8,7 @@ import {
   NavButtonProps,
   PlaceNode,
 } from "./libs/types";
-import { Category, PositionType } from "./libs/enums";
+import { Category, CategoryKey, PositionType } from "./libs/enums";
 import {
   YOU_ARE_HERE,
   defaultPosition,
@@ -93,9 +93,16 @@ export default function MapLayout() {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
   };
 
-  const onClickPlaceCategory = async (category: Category) => {
+  const onClickPlaceCategory = async (
+    categoryKey: CategoryKey,
+    category: Category
+  ) => {
     setShowLoading(true);
-    const places: PlaceNode[] = await fetchPlaces(category, position);
+    const places: PlaceNode[] = await fetchPlaces(
+      categoryKey,
+      category,
+      position
+    );
     setPlaces(places.slice(0, displayedPlaceCount));
     setMarkerIconProps(markerIconPropsDict[category]);
     setShowLoading(false);
@@ -103,22 +110,31 @@ export default function MapLayout() {
 
   const navButtonProps: NavButtonProps[] = [
     {
-      onClick: () => onClickPlaceCategory(Category.restaurant),
+      onClick: () =>
+        onClickPlaceCategory(CategoryKey.amenity, Category.restaurant),
       imgSrc: "./restaurant.svg",
       imgAlt: "Restaurant Icon",
       text: "Restaurants",
     },
     {
-      onClick: () => onClickPlaceCategory(Category.library),
+      onClick: () =>
+        onClickPlaceCategory(CategoryKey.amenity, Category.library),
       imgSrc: "./library.svg",
       imgAlt: "Library Icon",
       text: "Libraries",
     },
     {
-      onClick: () => onClickPlaceCategory(Category.bbq),
+      onClick: () => onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
       imgSrc: "./bbq.svg",
       imgAlt: "BBQ Icon",
       text: "BBQs",
+    },
+    {
+      onClick: () =>
+        onClickPlaceCategory(CategoryKey.attraction, Category.animal),
+      imgSrc: "./animal.svg",
+      imgAlt: "Animal Icon",
+      text: "Animals",
     },
   ];
 
