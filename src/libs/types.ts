@@ -32,3 +32,10 @@ export type MarkerIconProps = {
     imagePath: string;
     backgroundColor: string;
 }
+
+export type NavButtonProps = {
+    onClick: () => void;
+    imgSrc: string;
+    imgAlt: string;
+    text: string;
+}

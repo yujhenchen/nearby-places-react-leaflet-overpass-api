@@ -9,5 +9,6 @@ export const displayedPlaceCount = 10;
 
 export const markerIconPropsDict: { [key: string]: MarkerIconProps } = {
     [Category.restaurant]: { imagePath: './restaurant.svg', backgroundColor: 'bg-orange-300' },
-    [Category.library]: { imagePath: './library.svg', backgroundColor: 'bg-blue-300' }
+    [Category.library]: { imagePath: './library.svg', backgroundColor: 'bg-blue-300' },
+    [Category.bbq]: { imagePath: './bbq.svg', backgroundColor: 'bg-yellow-300' },
 };

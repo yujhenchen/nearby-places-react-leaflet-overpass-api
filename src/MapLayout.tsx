@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
-import { GeoPosition, MarkerIconProps, PlaceNode } from "./libs/types";
+import {
+  GeoPosition,
+  MarkerIconProps,
+  NavButtonProps,
+  PlaceNode,
+} from "./libs/types";
 import { Category, PositionType } from "./libs/enums";
 import {
   YOU_ARE_HERE,
@@ -85,6 +90,36 @@ export default function MapLayout() {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
   };
 
+  const onClickRestaurants = async () => {
+    const places: PlaceNode[] = await fetchPlaces(
+      Category.restaurant,
+      position
+    );
+    setPlaces(places.slice(0, displayedPlaceCount));
+    setMarkerIconProps(markerIconPropsDict[Category.restaurant]);
+  };
+
+  const onClickLibraries = async () => {
+    const places: PlaceNode[] = await fetchPlaces(Category.library, position);
+    setPlaces(places.slice(0, displayedPlaceCount));
+    setMarkerIconProps(markerIconPropsDict[Category.library]);
+  };
+
+  const navButtonProps: NavButtonProps[] = [
+    {
+      onClick: onClickRestaurants,
+      imgSrc: "./restaurant.svg",
+      imgAlt: "Restaurant Icon",
+      text: "Restaurants",
+    },
+    {
+      onClick: onClickLibraries,
+      imgSrc: "./library.svg",
+      imgAlt: "Library Icon",
+      text: "Libraries",
+    },
+  ];
+
   return (
     <div className="w-screen h-screen">
       <MapContainer
@@ -151,24 +186,7 @@ export default function MapLayout() {
         />
       </div>
 
-      <Navigation
-        onClickRestaurants={async () => {
-          const places: PlaceNode[] = await fetchPlaces(
-            Category.restaurant,
-            position
-          );
-          setPlaces(places.slice(0, displayedPlaceCount));
-          setMarkerIconProps(markerIconPropsDict[Category.restaurant]);
-        }}
-        onClickLibraries={async () => {
-          const places: PlaceNode[] = await fetchPlaces(
-            Category.library,
-            position
-          );
-          setPlaces(places.slice(0, displayedPlaceCount));
-          setMarkerIconProps(markerIconPropsDict[Category.library]);
-        }}
-      />
+      <Navigation buttonProps={navButtonProps} />
 
       <PlaceContainer
         currentPosition={position}
