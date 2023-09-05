@@ -11,7 +11,7 @@ export default function Navigation({ buttonProps }: Props) {
         <button
           key={index}
           type="button"
-          className="text-gray-900 w-fit shadow-lg flex space-x-2 items-center bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          className="text-gray-900 w-fit shadow-lg flex space-x-1 items-center bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
           onClick={buttonProp.onClick}
         >
           <div className="flex items-center place-content-center w-6 md:w-8">
@@ -21,7 +21,7 @@ export default function Navigation({ buttonProps }: Props) {
               className="w-full h-full object-contain"
             />
           </div>
-          <span className="hidden md:flex items-center place-content-center">
+          <span className="hidden md:flex items-center place-content-center text-sm">
             {buttonProp.text}
           </span>
         </button>
