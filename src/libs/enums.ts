@@ -11,6 +11,7 @@ export enum Category {
 }
 
 export enum PositionType {
+    useStore = 'useStore',
     userCurrent = 'user',
     newPosition = 'new'
 }

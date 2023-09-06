@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  ZoomControl,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
 import {
@@ -25,29 +31,54 @@ import Loading from "./Loading";
 
 type Props = {
   flyToPositionType: PositionType;
-  flyToPosition: GeoPosition;
 };
 
-function LocationMarker({ flyToPositionType, flyToPosition }: Props) {
-  const [setStorePosition] = useMapStore((state) => [state.setPosition]);
+function LocationMarker({ flyToPositionType }: Props) {
+  const [storePosition, setStorePosition, setStoreFlyToPositionType] =
+    useMapStore((state) => [
+      state.position,
+      state.setPosition,
+      state.setFlyToPositionType,
+    ]);
 
   const map = useMap();
+
+  const [position, setPosition] = useState<GeoPosition>(defaultPosition);
+
+  useEffect(() => {
+    setPosition(storePosition);
+    map.flyTo([storePosition.lat, storePosition.lon], map.getZoom());
+  }, []);
+
+  useEffect(() => {
+    setStoreFlyToPositionType(PositionType.useStore);
+  }, [storePosition]);
 
   useEffect(() => {
     if (flyToPositionType === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
         map.flyTo(e.latlng, map.getZoom());
+        setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         setStorePosition({ lat: e.latlng.lat, lon: e.latlng.lng });
       });
     } else if (flyToPositionType === PositionType.newPosition) {
-      map.flyTo([flyToPosition.lat, flyToPosition.lon], map.getZoom());
-      setStorePosition({ lat: flyToPosition.lat, lon: flyToPosition.lon });
+      map.flyTo([position.lat, position.lon], map.getZoom());
+      setPosition({ lat: position.lat, lon: position.lon });
+      setStorePosition({ lat: position.lat, lon: position.lon });
     }
   }, [map, flyToPositionType]);
 
-  return flyToPosition === null ? null : (
+  useMapEvents({
+    dblclick(event) {
+      map.flyTo([event.latlng.lat, event.latlng.lng], map.getZoom());
+      setPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
+      setStorePosition({ lat: event.latlng.lat, lon: event.latlng.lng });
+    },
+  });
+
+  return position === null ? null : (
     <MapMarker
-      position={{ lat: flyToPosition.lat, lon: flyToPosition.lon }}
+      position={{ lat: position.lat, lon: position.lon }}
       text={YOU_ARE_HERE}
     />
   );
@@ -55,7 +86,7 @@ function LocationMarker({ flyToPositionType, flyToPosition }: Props) {
 
 export default function MapLayout() {
   const [flyToPositionType, setFlyToPositionType] = useState<PositionType>(
-    PositionType.newPosition
+    PositionType.useStore
   );
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
@@ -150,11 +181,6 @@ export default function MapLayout() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <MapMarker
-          position={{ lat: position.lat, lon: position.lon }}
-          text={"You are here"}
-        />
-
         {places.map((place) => (
           <CustomMapMarker
             key={place.id}
@@ -173,10 +199,7 @@ export default function MapLayout() {
           />
         ))}
 
-        <LocationMarker
-          flyToPositionType={flyToPositionType}
-          flyToPosition={position}
-        />
+        <LocationMarker flyToPositionType={flyToPositionType} />
         <ZoomControl position="topright" />
       </MapContainer>
 

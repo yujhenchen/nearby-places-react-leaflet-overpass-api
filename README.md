@@ -6,6 +6,7 @@ leafletjs<br>
 React Leaflet<br>
 Overpass API<br>
 zustand<br>
+react-query<br>
 
 # Issues and solutions
 
@@ -367,3 +368,17 @@ export default function PlaceContainer({
   }
 }
 ```
+
+## Double click to go anywhere in the map
+
+https://stackoverflow.com/questions/66288089/how-to-display-a-list-of-points-using-dbclick-in-react-leaflet-v-3-x
+
+# Future works
+
+1. Cache query
+2. More categories of places V
+3. Storage: current position, user saved places
+4. Search: search with suggestions and auto completion
+5. Loading UI during query V
+6. Double chick go to anywhere in the world V
+7. Change the current location mark to be an moving person animation
