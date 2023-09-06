@@ -28,6 +28,7 @@ import CustomMapMarker from "./CustomMapMarker";
 import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 import Loading from "./Loading";
+import Toast from "./Toast";
 
 type Props = {
   flyToPositionType: PositionType;
@@ -61,10 +62,10 @@ function LocationMarker({ flyToPositionType }: Props) {
         setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
         setStorePosition({ lat: e.latlng.lat, lon: e.latlng.lng });
       });
-    } else if (flyToPositionType === PositionType.newPosition) {
-      map.flyTo([position.lat, position.lon], map.getZoom());
-      setPosition({ lat: position.lat, lon: position.lon });
-      setStorePosition({ lat: position.lat, lon: position.lon });
+    } else if (flyToPositionType === PositionType.default) {
+      map.flyTo([defaultPosition.lat, defaultPosition.lon], map.getZoom());
+      setPosition(defaultPosition);
+      setStorePosition(defaultPosition);
     }
   }, [map, flyToPositionType]);
 
@@ -95,17 +96,12 @@ export default function MapLayout() {
 
   const [showLoading, setShowLoading] = useState(false);
 
-  const [
-    storePosition,
-    storeFlyToPositionType,
-    setStorePosition,
-    setStoreFlyToPositionType,
-  ] = useMapStore((state) => [
-    state.position,
-    state.flyToPositionType,
-    state.setPosition,
-    state.setFlyToPositionType,
-  ]);
+  const [storePosition, storeFlyToPositionType, setStoreFlyToPositionType] =
+    useMapStore((state) => [
+      state.position,
+      state.flyToPositionType,
+      state.setFlyToPositionType,
+    ]);
 
   const [selectedPosition, setSelectedPosition] = useState<GeoPosition | null>(
     null
@@ -114,6 +110,8 @@ export default function MapLayout() {
   const [markerIconProps, setMarkerIconProps] = useState<MarkerIconProps>(
     markerIconPropsDict[Category.restaurant]
   );
+
+  const [showTipToast, setShowTipToast] = useState(true);
 
   useEffect(() => {
     setPosition(storePosition);
@@ -207,10 +205,8 @@ export default function MapLayout() {
         <NavLocationButton
           onClick={() => {
             setPlaces([]);
-            setFlyToPositionType(PositionType.newPosition);
-            setStoreFlyToPositionType(PositionType.newPosition);
-            setPosition(defaultPosition);
-            setStorePosition(defaultPosition);
+            setFlyToPositionType(PositionType.default);
+            setStoreFlyToPositionType(PositionType.default);
           }}
           iconPath="./sweden.svg"
           iconAlt="Sweden Icon"
@@ -237,6 +233,13 @@ export default function MapLayout() {
       />
 
       {showLoading ? <Loading /> : null}
+
+      {showTipToast ? (
+        <Toast
+          text="Hint: Double-click on the map to explore a new location :D"
+          onClick={(showToast) => setShowTipToast(showToast)}
+        />
+      ) : null}
     </div>
   );
 }
