@@ -8,7 +8,7 @@ const useMapStore = create<MapState>()(
     persist(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (set, _get) => ({
-            flyToPositionType: PositionType.newPosition,
+            flyToPositionType: PositionType.default,
             position: {
                 lat: defaultPosition.lat,
                 lon: defaultPosition.lon,
