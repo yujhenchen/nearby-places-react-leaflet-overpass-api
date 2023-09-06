@@ -123,12 +123,12 @@ export default function MapLayout() {
       imgAlt: "Library Icon",
       text: "Libraries",
     },
-    {
-      onClick: () => onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
-      imgSrc: "./bbq.svg",
-      imgAlt: "BBQ Icon",
-      text: "BBQs",
-    },
+    // {
+    //   onClick: () => onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
+    //   imgSrc: "./bbq.svg",
+    //   imgAlt: "BBQ Icon",
+    //   text: "BBQs",
+    // },
     {
       onClick: () =>
         onClickPlaceCategory(CategoryKey.attraction, Category.animal),
