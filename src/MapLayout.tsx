@@ -236,7 +236,7 @@ export default function MapLayout() {
 
       {showTipToast ? (
         <Toast
-          text="Hint: Double-click on the map to explore a new location :D"
+          text="Double-click on the map to explore a new location"
           onClick={(showToast) => setShowTipToast(showToast)}
         />
       ) : null}

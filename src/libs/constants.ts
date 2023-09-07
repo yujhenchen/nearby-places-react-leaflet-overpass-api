@@ -5,7 +5,7 @@ export const defaultPosition: GeoPosition = { lat: 59.3285, lon: 18.0782 };
 
 export const YOU_ARE_HERE = "You are here";
 
-export const THIS_IS_A_SECRET_PLACE = "This is a secret place :)";
+export const THIS_IS_A_SECRET_PLACE = "This is a secret place";
 
 export const displayedPlaceCount = 10;
 
