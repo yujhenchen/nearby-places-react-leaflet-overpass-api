@@ -21,7 +21,7 @@ import {
   displayedPlaceCount,
   markerIconPropsDict,
 } from "./libs/constants";
-import NavLocationButton from "./NavLocationButton";
+import GoToPositionButton from "./GoToPositionButton";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
@@ -201,7 +201,7 @@ export default function MapLayout() {
       </MapContainer>
 
       <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
-        <NavLocationButton
+        <GoToPositionButton
           onClick={() => {
             setPlaces([]);
             setFlyToPositionType(PositionType.default);
@@ -209,9 +209,10 @@ export default function MapLayout() {
           }}
           iconPath="./sweden.svg"
           iconAlt="Sweden Icon"
+          title="Go to Sweden"
         />
 
-        <NavLocationButton
+        <GoToPositionButton
           onClick={() => {
             setPlaces([]);
             setFlyToPositionType(PositionType.userCurrent);
@@ -219,6 +220,7 @@ export default function MapLayout() {
           }}
           iconPath="./current.svg"
           iconAlt="Current Location Icon"
+          title="Go to current"
         />
       </div>
 

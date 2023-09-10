@@ -1,12 +1,14 @@
 type Props = {
   iconPath: string;
   iconAlt: string;
+  title: string;
   onClick: () => void;
 };
 
-export default function NavLocationButton({
+export default function GoToPositionButton({
   iconPath,
   iconAlt,
+  title,
   onClick,
 }: Props) {
   return (
@@ -17,6 +19,7 @@ export default function NavLocationButton({
       <img
         src={iconPath}
         alt={iconAlt}
+        title={title}
         className="w-full h-full object-contain"
       />
     </button>
