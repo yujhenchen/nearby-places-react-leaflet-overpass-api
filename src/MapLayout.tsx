@@ -28,7 +28,6 @@ import CustomMapMarker from "./CustomMapMarker";
 import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 import Loading from "./Loading";
-import Toast from "./Toast";
 
 type Props = {
   flyToPositionType: PositionType;
@@ -48,7 +47,7 @@ function LocationMarker({ flyToPositionType }: Props) {
 
   useEffect(() => {
     setPosition(storePosition);
-    map.flyTo([storePosition.lat, storePosition.lon], map.getZoom());
+    map.setView([storePosition.lat, storePosition.lon], map.getZoom());
   }, []);
 
   useEffect(() => {
@@ -70,7 +69,7 @@ function LocationMarker({ flyToPositionType }: Props) {
   }, [map, flyToPositionType]);
 
   useMapEvents({
-    dblclick(event) {
+    click(event) {
       map.flyTo([event.latlng.lat, event.latlng.lng], map.getZoom());
       setPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
       setStorePosition({ lat: event.latlng.lat, lon: event.latlng.lng });
@@ -111,7 +110,7 @@ export default function MapLayout() {
     markerIconPropsDict[Category.restaurant]
   );
 
-  const [showTipToast, setShowTipToast] = useState(true);
+  // const [showTipToast, setShowTipToast] = useState(true);
 
   useEffect(() => {
     setPosition(storePosition);
@@ -234,12 +233,12 @@ export default function MapLayout() {
 
       {showLoading ? <Loading /> : null}
 
-      {showTipToast ? (
+      {/* {showTipToast ? (
         <Toast
           text="Double-click on the map to explore a new location"
           onClick={(showToast) => setShowTipToast(showToast)}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
