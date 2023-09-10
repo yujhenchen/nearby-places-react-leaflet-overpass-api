@@ -19,3 +19,10 @@ export function distance(lat1: number, lon1: number, lat2: number, lon2: number,
         return +parseFloat(dist.toString()).toFixed(2);
     }
 }
+
+export function getCurrentDimension() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    }
+}

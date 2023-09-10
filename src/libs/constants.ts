@@ -15,3 +15,5 @@ export const markerIconPropsDict: { [key: string]: MarkerIconProps } = {
     [Category.bbq]: { imagePath: './bbq.svg', backgroundColor: 'bg-yellow-300' },
     [Category.animal]: { imagePath: './animal.svg', backgroundColor: 'bg-pink-300' },
 };
+
+export const largeScreenMinWidth = 1024;

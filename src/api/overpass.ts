@@ -12,7 +12,7 @@ export const fetchPlaces = async (
 
         const query = `
         [out:json][timeout:25];
-        (node[${categoryKey}=${category}](around:10000, ${position.lat}, ${position.lon}););
+        (node[${categoryKey}=${category}](around:5000, ${position.lat}, ${position.lon}););
         out;
         >;
         out skel qt;
