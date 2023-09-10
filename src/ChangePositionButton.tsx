@@ -5,7 +5,7 @@ type Props = {
   onClick: () => void;
 };
 
-export default function GoToPositionButton({
+export default function ChangePositionButton({
   iconPath,
   iconAlt,
   title,

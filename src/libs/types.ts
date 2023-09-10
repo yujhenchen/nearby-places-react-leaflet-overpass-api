@@ -39,3 +39,11 @@ export type NavButtonProps = {
     imgAlt: string;
     text: string;
 }
+
+
+export type ChangePositionButtonProps = {
+    onClick: (positionType: PositionType) => void;
+    imgPath: string;
+    imgAlt: string;
+    title: string;
+}

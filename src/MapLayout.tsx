@@ -9,6 +9,7 @@ import {
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
 import {
+  ChangePositionButtonProps,
   GeoPosition,
   MarkerIconProps,
   NavButtonProps,
@@ -21,13 +22,13 @@ import {
   displayedPlaceCount,
   markerIconPropsDict,
 } from "./libs/constants";
-import GoToPositionButton from "./GoToPositionButton";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
 import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 import Loading from "./Loading";
+import ChangePositionContainer from "./ChangePositionContainer";
 
 type Props = {
   flyToPositionType: PositionType;
@@ -166,6 +167,29 @@ export default function MapLayout() {
     },
   ];
 
+  const changePositionButtonProps: ChangePositionButtonProps[] = [
+    {
+      onClick: () => {
+        setPlaces([]);
+        setFlyToPositionType(PositionType.default);
+        setStoreFlyToPositionType(PositionType.default);
+      },
+      imgPath: "./sweden.svg",
+      imgAlt: "Sweden Icon",
+      title: "Go to Sweden",
+    },
+    {
+      onClick: () => {
+        setPlaces([]);
+        setFlyToPositionType(PositionType.userCurrent);
+        setStoreFlyToPositionType(PositionType.userCurrent);
+      },
+      imgPath: "./current.svg",
+      imgAlt: "Current Location Icon",
+      title: "Go to current",
+    },
+  ];
+
   return (
     <div className="w-screen h-screen">
       <MapContainer
@@ -200,29 +224,7 @@ export default function MapLayout() {
         <ZoomControl position="topright" />
       </MapContainer>
 
-      <div className="fixed flex flex-col space-y-4 bottom-64 right-8 lg:bottom-24 lg:right-24">
-        <GoToPositionButton
-          onClick={() => {
-            setPlaces([]);
-            setFlyToPositionType(PositionType.default);
-            setStoreFlyToPositionType(PositionType.default);
-          }}
-          iconPath="./sweden.svg"
-          iconAlt="Sweden Icon"
-          title="Go to Sweden"
-        />
-
-        <GoToPositionButton
-          onClick={() => {
-            setPlaces([]);
-            setFlyToPositionType(PositionType.userCurrent);
-            setStoreFlyToPositionType(PositionType.userCurrent);
-          }}
-          iconPath="./current.svg"
-          iconAlt="Current Location Icon"
-          title="Go to current"
-        />
-      </div>
+      <ChangePositionContainer buttonProps={changePositionButtonProps} />
 
       <Navigation buttonProps={navButtonProps} />
 
