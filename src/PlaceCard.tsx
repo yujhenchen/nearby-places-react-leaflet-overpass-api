@@ -59,7 +59,7 @@ export default function PlaceCard({
       </button>
 
       {showDetails ? (
-        <div className="absolute right-0 bottom-full lg:left-40 lg:top-0 z-10 h-56 lg:h-fit w-48 overflow-x-auto overflow-y-auto rounded-lg flex flex-col space-y-1 bg-white px-4 py-2 text-sm shadow-xl duration-300">
+        <div className="absolute right-0 bottom-full lg:left-40 lg:top-0 z-10 h-56 lg:h-fit w-48 overflow-x-auto overflow-y-auto rounded-lg flex flex-col space-y-1 bg-gray-50 px-4 py-2 text-sm shadow-xl duration-300">
           <button
             id={`close_card_details_${id}`}
             type="button"
