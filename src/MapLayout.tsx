@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -13,7 +13,6 @@ import {
   GeoPosition,
   MarkerIconProps,
   NavButtonProps,
-  PlaceNode,
 } from "./libs/types";
 import { Category, CategoryKey, PositionType } from "./libs/enums";
 import {
@@ -29,6 +28,8 @@ import useMapStore from "./store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 import Loading from "./Loading";
 import ChangePositionContainer from "./ChangePositionContainer";
+import { useQuery } from "@tanstack/react-query";
+import useQueryStore from "./store/useQueryStore";
 
 type Props = {
   flyToPositionType: PositionType;
@@ -92,7 +93,25 @@ export default function MapLayout() {
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
-  const [places, setPlaces] = useState<PlaceNode[]>([]);
+  const [categoryKey, category, setCategoryKey, setCategory] = useQueryStore(
+    (state) => [
+      state.categoryKey,
+      state.category,
+      state.setCategoryKey,
+      state.setCategory,
+    ]
+  );
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["fetchedPlaces", categoryKey, category, position],
+    queryFn: () => fetchPlaces(categoryKey, category, position),
+    staleTime: 10000,
+  });
+
+  const toDisplayPlaces = useMemo(
+    () => data?.slice(0, displayedPlaceCount),
+    [data]
+  );
 
   const [showLoading, setShowLoading] = useState(false);
 
@@ -123,44 +142,51 @@ export default function MapLayout() {
   };
 
   const onClickPlaceCategory = async (
-    categoryKey: CategoryKey,
-    category: Category
-  ) => {
+    newCategoryKey: CategoryKey,
+    newCategory: Category
+  ): Promise<void> => {
     setShowLoading(true);
-    const places: PlaceNode[] = await fetchPlaces(
-      categoryKey,
-      category,
-      position
-    );
-    setPlaces(places.slice(0, displayedPlaceCount));
-    setMarkerIconProps(markerIconPropsDict[category]);
+    if (isLoading) {
+      console.log("loading fetch");
+    }
+
+    if (error) {
+      console.log("fetch error");
+    }
+
+    setCategoryKey(newCategoryKey);
+    setCategory(newCategory);
+
+    if (toDisplayPlaces) {
+      setMarkerIconProps(markerIconPropsDict[newCategory]);
+    }
     setShowLoading(false);
   };
 
   const navButtonProps: NavButtonProps[] = [
     {
-      onClick: () =>
-        onClickPlaceCategory(CategoryKey.amenity, Category.restaurant),
+      onClick: async () =>
+        await onClickPlaceCategory(CategoryKey.amenity, Category.restaurant),
       imgSrc: "./restaurant.svg",
       imgAlt: "Restaurant Icon",
       text: "Restaurants",
     },
     {
-      onClick: () =>
-        onClickPlaceCategory(CategoryKey.amenity, Category.library),
+      onClick: async () =>
+        await onClickPlaceCategory(CategoryKey.amenity, Category.library),
       imgSrc: "./library.svg",
       imgAlt: "Library Icon",
       text: "Libraries",
     },
     // {
-    //   onClick: () => onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
+    //   onClick: async () => await onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
     //   imgSrc: "./bbq.svg",
     //   imgAlt: "BBQ Icon",
     //   text: "BBQs",
     // },
     {
-      onClick: () =>
-        onClickPlaceCategory(CategoryKey.attraction, Category.animal),
+      onClick: async () =>
+        await onClickPlaceCategory(CategoryKey.attraction, Category.animal),
       imgSrc: "./animal.svg",
       imgAlt: "Animal Icon",
       text: "Animals",
@@ -170,7 +196,6 @@ export default function MapLayout() {
   const changePositionButtonProps: ChangePositionButtonProps[] = [
     {
       onClick: () => {
-        setPlaces([]);
         setFlyToPositionType(PositionType.default);
         setStoreFlyToPositionType(PositionType.default);
       },
@@ -180,7 +205,6 @@ export default function MapLayout() {
     },
     {
       onClick: () => {
-        setPlaces([]);
         setFlyToPositionType(PositionType.userCurrent);
         setStoreFlyToPositionType(PositionType.userCurrent);
       },
@@ -202,7 +226,7 @@ export default function MapLayout() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {places.map((place) => (
+        {toDisplayPlaces?.map((place) => (
           <CustomMapMarker
             key={place.id}
             isCardSelected={
@@ -230,7 +254,7 @@ export default function MapLayout() {
 
       <PlaceContainer
         currentPosition={position}
-        places={places}
+        places={toDisplayPlaces ?? []}
         selectedPosition={selectedPosition}
         onclickCard={(position) => setSelectedPosition(position)}
       />

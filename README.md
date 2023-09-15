@@ -369,16 +369,33 @@ export default function PlaceContainer({
 }
 ```
 
-## Double click to go anywhere in the map
+# Extra Features
+
+## Use React Query for efficient data fetching and caching to increase performance
+
+### Update and pass queryKey for query
+
+https://github.com/TanStack/query/discussions/3200
+
+...
+zustand
+
+### Edit data after calling API
+
+https://github.com/TanStack/query/discussions/530
+
+...
+useMemo
+
+## Single chick on the map go to anywhere in the world
 
 https://stackoverflow.com/questions/66288089/how-to-display-a-list-of-points-using-dbclick-in-react-leaflet-v-3-x
 
 # Future works
 
-1. Cache query
-2. More categories of places V
-3. Storage: current position, user saved places
-4. Search: search with suggestions and auto completion
-5. Loading UI during query V
-6. Double chick go to anywhere in the world V
-7. Change the current location mark to be an moving person animation
+1. Use React Query for efficient data fetching and caching to increase performance (Done)
+2. More categories of places (Done)
+3. Storage: current position (Done)
+4. Storage: user saved places
+5. Loading UI during query (Done)
+6. Single chick on the map go to anywhere in the world (Done)

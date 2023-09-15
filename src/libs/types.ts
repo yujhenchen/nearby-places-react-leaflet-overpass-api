@@ -1,4 +1,4 @@
-import { PositionType } from "./enums";
+import { Category, CategoryKey, PositionType } from "./enums";
 
 export type GeoPosition = {
     lat: number;
@@ -10,6 +10,13 @@ export type MapState = {
     position: GeoPosition;
     setPosition: (position: GeoPosition) => void;
     setFlyToPositionType: (flyToType: PositionType) => void;
+}
+
+export type MapCategoryState = {
+    categoryKey: CategoryKey;
+    category: Category;
+    setCategoryKey: (key: CategoryKey) => void;
+    setCategory: (category: Category) => void;
 }
 
 export type PlaceNodeTags = {
