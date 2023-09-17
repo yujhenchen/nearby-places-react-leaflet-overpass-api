@@ -154,14 +154,6 @@ export default function MapLayout() {
     newCategoryKey: CategoryKey,
     newCategory: Category
   ): void => {
-    if (isLoading) {
-      console.log("loading fetch");
-    }
-
-    if (error) {
-      console.log("fetch error");
-    }
-
     setStoreCategoryKey(newCategoryKey);
     setStoreCategory(newCategory);
 
@@ -210,8 +202,6 @@ export default function MapLayout() {
               selectedPosition !== null &&
               selectedPosition.lat === place.lat &&
               selectedPosition.lon === place.lon
-                ? true
-                : false
             }
             position={{ lat: place.lat, lon: place.lon }}
             text={place.tags.name}
@@ -237,6 +227,8 @@ export default function MapLayout() {
       />
 
       {isLoading ? <Loading /> : null}
+
+      {error ? <>Cannot get places data, please try again later</> : null}
     </div>
   );
 }
