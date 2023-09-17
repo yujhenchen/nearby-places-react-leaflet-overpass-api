@@ -1,5 +1,5 @@
 import { Marker, Popup } from "react-leaflet";
-import { GeoPosition } from "./libs/types";
+import { GeoPosition } from "../libs/types";
 
 type Props = {
   position: GeoPosition;

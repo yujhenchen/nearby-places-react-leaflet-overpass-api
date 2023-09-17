@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { GeoPosition } from "./libs/types";
-import { THIS_IS_A_SECRET_PLACE } from "./libs/constants";
+import { GeoPosition } from "../libs/types";
+import { THIS_IS_A_SECRET_PLACE } from "../libs/constants";
 
 type Props = {
   onclickCard: (position: GeoPosition) => void;

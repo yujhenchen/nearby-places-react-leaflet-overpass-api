@@ -1,5 +1,5 @@
-import { Category, CategoryKey } from "./libs/enums";
-import { NavigationProps } from "./libs/types";
+import { Category, CategoryKey } from "../libs/enums";
+import { NavigationProps } from "../libs/types";
 
 export const navigationProps: NavigationProps[] = [
     {

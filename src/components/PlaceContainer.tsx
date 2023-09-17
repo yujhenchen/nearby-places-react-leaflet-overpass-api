@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PlaceCard from "./PlaceCard";
-import { GeoPosition, PlaceNode } from "./libs/types";
-import { distance, getCurrentDimension } from "./libs/utils";
-import { largeScreenMinWidth } from "./libs/constants";
+import { GeoPosition, PlaceNode } from "../libs/types";
+import { distance, getCurrentDimension } from "../libs/utils";
+import { largeScreenMinWidth } from "../libs/constants";
 
 type Props = {
   currentPosition: GeoPosition;

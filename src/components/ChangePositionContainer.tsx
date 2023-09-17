@@ -1,6 +1,6 @@
 import ChangePositionButton from "./ChangePositionButton";
 import { changePositionProps } from "./ChangePositionProps";
-import { PositionType } from "./libs/enums";
+import { PositionType } from "../libs/enums";
 
 type Props = {
   onClickButton: (positionType: PositionType) => void;

@@ -1,5 +1,5 @@
-import { PositionType } from "./libs/enums";
-import { ChangePositionProps } from "./libs/types";
+import { PositionType } from "../libs/enums";
+import { ChangePositionProps } from "../libs/types";
 
 export const changePositionProps: ChangePositionProps[] = [
     {

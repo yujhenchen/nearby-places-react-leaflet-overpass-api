@@ -1,5 +1,5 @@
 import { navigationProps } from "./NavigationProps";
-import { Category, CategoryKey } from "./libs/enums";
+import { Category, CategoryKey } from "../libs/enums";
 
 type Props = {
   onClickCategory: (categoryKey: CategoryKey, category: Category) => void;

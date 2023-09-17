@@ -6,25 +6,25 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { fetchPlaces } from "./api/overpass";
+import { fetchPlaces } from "../api/overpass";
 import Navigation from "./Navigation";
-import { GeoPosition, MarkerIconProps } from "./libs/types";
-import { Category, CategoryKey, PositionType } from "./libs/enums";
+import { GeoPosition, MarkerIconProps } from "../libs/types";
+import { Category, CategoryKey, PositionType } from "../libs/enums";
 import {
   YOU_ARE_HERE,
   defaultPosition,
   displayedPlaceCount,
   markerIconPropsDict,
-} from "./libs/constants";
+} from "../libs/constants";
 import MapMarker from "./MapMarker";
 import PlaceContainer from "./PlaceContainer";
 import CustomMapMarker from "./CustomMapMarker";
-import useMapStore from "./store/useMapStore";
+import useMapStore from "../store/useMapStore";
 import { LeafletMouseEvent } from "leaflet";
 import Loading from "./Loading";
 import ChangePositionContainer from "./ChangePositionContainer";
 import { useQuery } from "@tanstack/react-query";
-import useQueryStore from "./store/useQueryStore";
+import useQueryStore from "../store/useQueryStore";
 
 type Props = {
   flyToPositionType: PositionType;
