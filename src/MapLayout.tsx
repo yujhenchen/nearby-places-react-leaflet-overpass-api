@@ -115,8 +115,6 @@ export default function MapLayout() {
     [data]
   );
 
-  const [showLoading, setShowLoading] = useState(false);
-
   const [
     storePosition,
     storeFlyToPositionType,
@@ -156,7 +154,6 @@ export default function MapLayout() {
     newCategoryKey: CategoryKey,
     newCategory: Category
   ): void => {
-    setShowLoading(true);
     if (isLoading) {
       console.log("loading fetch");
     }
@@ -171,7 +168,6 @@ export default function MapLayout() {
     const iconProps = markerIconPropsDict[newCategory];
     setMarkerIconProps(iconProps);
     storeSetMarkerIconProps(iconProps);
-    setShowLoading(false);
   };
 
   const changePositionButtonProps: ChangePositionButtonProps[] = [
@@ -240,7 +236,7 @@ export default function MapLayout() {
         onclickCard={(position) => setSelectedPosition(position)}
       />
 
-      {showLoading ? <Loading /> : null}
+      {isLoading ? <Loading /> : null}
     </div>
   );
 }
