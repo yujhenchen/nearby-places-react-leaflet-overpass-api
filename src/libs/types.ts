@@ -42,8 +42,9 @@ export type MarkerIconProps = {
     backgroundColor: string;
 }
 
-export type NavButtonProps = {
-    onClick: () => void;
+export type NavigationProps = {
+    categoryKey: CategoryKey;
+    category: Category;
     imgSrc: string;
     imgAlt: string;
     text: string;

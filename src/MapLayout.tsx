@@ -12,7 +12,6 @@ import {
   ChangePositionButtonProps,
   GeoPosition,
   MarkerIconProps,
-  NavButtonProps,
 } from "./libs/types";
 import { Category, CategoryKey, PositionType } from "./libs/enums";
 import {
@@ -153,10 +152,10 @@ export default function MapLayout() {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
   };
 
-  const onClickPlaceCategory = async (
+  const onClickCategory = (
     newCategoryKey: CategoryKey,
     newCategory: Category
-  ): Promise<void> => {
+  ): void => {
     setShowLoading(true);
     if (isLoading) {
       console.log("loading fetch");
@@ -174,36 +173,6 @@ export default function MapLayout() {
     storeSetMarkerIconProps(iconProps);
     setShowLoading(false);
   };
-
-  const navButtonProps: NavButtonProps[] = [
-    {
-      onClick: async () =>
-        await onClickPlaceCategory(CategoryKey.amenity, Category.restaurant),
-      imgSrc: "./restaurant.svg",
-      imgAlt: "Restaurant Icon",
-      text: "Restaurants",
-    },
-    {
-      onClick: async () =>
-        await onClickPlaceCategory(CategoryKey.amenity, Category.library),
-      imgSrc: "./library.svg",
-      imgAlt: "Library Icon",
-      text: "Libraries",
-    },
-    // {
-    //   onClick: async () => await onClickPlaceCategory(CategoryKey.amenity, Category.bbq),
-    //   imgSrc: "./bbq.svg",
-    //   imgAlt: "BBQ Icon",
-    //   text: "BBQs",
-    // },
-    {
-      onClick: async () =>
-        await onClickPlaceCategory(CategoryKey.attraction, Category.animal),
-      imgSrc: "./animal.svg",
-      imgAlt: "Animal Icon",
-      text: "Animals",
-    },
-  ];
 
   const changePositionButtonProps: ChangePositionButtonProps[] = [
     {
@@ -262,7 +231,7 @@ export default function MapLayout() {
 
       <ChangePositionContainer buttonProps={changePositionButtonProps} />
 
-      <Navigation buttonProps={navButtonProps} />
+      <Navigation onClickCategory={onClickCategory} />
 
       <PlaceContainer
         currentPosition={position}
