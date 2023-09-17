@@ -36,17 +36,20 @@ export default function PlaceCard({
       id={id}
       data-tooltip-target="tooltip-light"
       data-tooltip-style="light"
-      className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-gray-100 ${
+      className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-white border border-gray-200 shadow hover:bg-gray-100 ${
         isSelected ? "scale-105 shadow-lg" : "hover:shadow-lg"
       }`}
       onClick={() => onclickCard(position)}
     >
-      <span id="place_name" className="text-base">
+      <h5
+        id="place_name"
+        className="text-base font-bold text-gray-800 dark:text-white"
+      >
         {!name || name.trim().length < 0 ? THIS_IS_A_SECRET_PLACE : name}
-      </span>
-      <span>
-        <b>Distance:</b> {distance} km
-      </span>
+      </h5>
+      <p className="font-normal text-gray-700 dark:text-gray-400">
+        Distance: <b>{distance}</b> km
+      </p>
 
       <button
         className="font-medium text-xs text-blue-600 dark:text-blue-500 hover:font-semibold hover:ease-out duration-300"
@@ -88,15 +91,15 @@ export default function PlaceCard({
               />
             </svg>
           </button>
-          <span>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
             <b>Opening Hours: </b> {opening_hours}
-          </span>
+          </p>
 
-          <span>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
             <b>Phone: </b> {phone}
-          </span>
+          </p>
 
-          <span>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
             <b>Website: </b>
             <a
               href="#"
@@ -104,7 +107,7 @@ export default function PlaceCard({
             >
               {website}
             </a>
-          </span>
+          </p>
         </div>
       ) : null}
     </div>
