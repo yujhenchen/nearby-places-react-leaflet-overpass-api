@@ -51,25 +51,25 @@ function LocationMarker({ flyToPositionType }: Props) {
     setStoreFlyToPositionType(PositionType.useStore);
   }, [storePosition]);
 
+  const flyToPosition = (latitude: number, longitude: number): void => {
+    map.flyTo([latitude, longitude], map.getZoom());
+    setPosition({ lat: latitude, lon: longitude });
+    setStorePosition({ lat: latitude, lon: longitude });
+  };
+
   useEffect(() => {
     if (flyToPositionType === PositionType.userCurrent) {
       map.locate().on("locationfound", function (e) {
-        map.flyTo(e.latlng, map.getZoom());
-        setPosition({ lat: e.latlng.lat, lon: e.latlng.lng });
-        setStorePosition({ lat: e.latlng.lat, lon: e.latlng.lng });
+        flyToPosition(e.latlng.lat, e.latlng.lng);
       });
     } else if (flyToPositionType === PositionType.default) {
-      map.flyTo([defaultPosition.lat, defaultPosition.lon], map.getZoom());
-      setPosition(defaultPosition);
-      setStorePosition(defaultPosition);
+      flyToPosition(defaultPosition.lat, defaultPosition.lon);
     }
   }, [map, flyToPositionType]);
 
   useMapEvents({
     click(event) {
-      map.flyTo([event.latlng.lat, event.latlng.lng], map.getZoom());
-      setPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
-      setStorePosition({ lat: event.latlng.lat, lon: event.latlng.lng });
+      flyToPosition(event.latlng.lat, event.latlng.lng);
     },
   });
 
