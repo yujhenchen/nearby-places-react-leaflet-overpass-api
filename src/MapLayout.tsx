@@ -93,18 +93,21 @@ export default function MapLayout() {
 
   const [position, setPosition] = useState<GeoPosition>(defaultPosition);
 
-  const [categoryKey, category, setCategoryKey, setCategory] = useQueryStore(
-    (state) => [
-      state.categoryKey,
-      state.category,
-      state.setCategoryKey,
-      state.setCategory,
-    ]
-  );
+  const [
+    storeCategoryKey,
+    storeCategory,
+    setStoreCategoryKey,
+    setStoreCategory,
+  ] = useQueryStore((state) => [
+    state.categoryKey,
+    state.category,
+    state.setCategoryKey,
+    state.setCategory,
+  ]);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["fetchedPlaces", categoryKey, category, position],
-    queryFn: () => fetchPlaces(categoryKey, category, position),
+    queryKey: ["fetchedPlaces", storeCategoryKey, storeCategory, position],
+    queryFn: () => fetchPlaces(storeCategoryKey, storeCategory, position),
     staleTime: 10000,
   });
 
@@ -115,12 +118,19 @@ export default function MapLayout() {
 
   const [showLoading, setShowLoading] = useState(false);
 
-  const [storePosition, storeFlyToPositionType, setStoreFlyToPositionType] =
-    useMapStore((state) => [
-      state.position,
-      state.flyToPositionType,
-      state.setFlyToPositionType,
-    ]);
+  const [
+    storePosition,
+    storeFlyToPositionType,
+    storeMarkerIconProps,
+    setStoreFlyToPositionType,
+    storeSetMarkerIconProps,
+  ] = useMapStore((state) => [
+    state.position,
+    state.flyToPositionType,
+    state.markerIconProps,
+    state.setFlyToPositionType,
+    state.setMarkerIconProps,
+  ]);
 
   const [selectedPosition, setSelectedPosition] = useState<GeoPosition | null>(
     null
@@ -130,7 +140,9 @@ export default function MapLayout() {
     markerIconPropsDict[Category.restaurant]
   );
 
-  // const [showTipToast, setShowTipToast] = useState(true);
+  useEffect(() => {
+    setMarkerIconProps(storeMarkerIconProps);
+  }, []);
 
   useEffect(() => {
     setPosition(storePosition);
@@ -154,12 +166,12 @@ export default function MapLayout() {
       console.log("fetch error");
     }
 
-    setCategoryKey(newCategoryKey);
-    setCategory(newCategory);
+    setStoreCategoryKey(newCategoryKey);
+    setStoreCategory(newCategory);
 
-    if (toDisplayPlaces) {
-      setMarkerIconProps(markerIconPropsDict[newCategory]);
-    }
+    const iconProps = markerIconPropsDict[newCategory];
+    setMarkerIconProps(iconProps);
+    storeSetMarkerIconProps(iconProps);
     setShowLoading(false);
   };
 
@@ -260,13 +272,6 @@ export default function MapLayout() {
       />
 
       {showLoading ? <Loading /> : null}
-
-      {/* {showTipToast ? (
-        <Toast
-          text="Double-click on the map to explore a new location"
-          onClick={(showToast) => setShowTipToast(showToast)}
-        />
-      ) : null} */}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { GeoPosition, MapState } from '../libs/types';
+import { GeoPosition, MapState, MarkerIconProps } from '../libs/types';
 import { defaultPosition } from '../libs/constants';
 import { PositionType } from '../libs/enums';
 
@@ -13,8 +13,10 @@ const useMapStore = create<MapState>()(
                 lat: defaultPosition.lat,
                 lon: defaultPosition.lon,
             },
+            markerIconProps: { imagePath: '', backgroundColor: '' },
             setPosition: (position: GeoPosition) => set({ position: position }),
             setFlyToPositionType: (flyToType: PositionType) => set({ flyToPositionType: flyToType }),
+            setMarkerIconProps: (iconProps: MarkerIconProps) => set({ markerIconProps: iconProps }),
         }),
 
         {

@@ -8,8 +8,10 @@ export type GeoPosition = {
 export type MapState = {
     flyToPositionType: PositionType;
     position: GeoPosition;
+    markerIconProps: MarkerIconProps;
     setPosition: (position: GeoPosition) => void;
     setFlyToPositionType: (flyToType: PositionType) => void;
+    setMarkerIconProps: (iconProps: MarkerIconProps) => void;
 }
 
 export type MapCategoryState = {
