@@ -36,7 +36,7 @@ export default function PlaceCard({
       id={id}
       data-tooltip-target="tooltip-light"
       data-tooltip-style="light"
-      className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-gray-100 ${
+      className={`relative h-32 aspect-[4/3] rounded-lg flex flex-col space-y-1 px-4 py-2 text-sm duration-300 bg-gray-100 lg:overflow-y-scroll lg:overflow-x-scroll scrollbar-none scrollbar-thumb-gray-600${
         isSelected ? "scale-105 shadow-lg" : "hover:shadow-lg"
       }`}
       onClick={() => onclickCard(position)}
