@@ -8,11 +8,7 @@ import {
 } from "react-leaflet";
 import { fetchPlaces } from "./api/overpass";
 import Navigation from "./Navigation";
-import {
-  ChangePositionButtonProps,
-  GeoPosition,
-  MarkerIconProps,
-} from "./libs/types";
+import { GeoPosition, MarkerIconProps } from "./libs/types";
 import { Category, CategoryKey, PositionType } from "./libs/enums";
 import {
   YOU_ARE_HERE,
@@ -162,26 +158,10 @@ export default function MapLayout() {
     storeSetMarkerIconProps(iconProps);
   };
 
-  const changePositionButtonProps: ChangePositionButtonProps[] = [
-    {
-      onClick: () => {
-        setFlyToPositionType(PositionType.default);
-        setStoreFlyToPositionType(PositionType.default);
-      },
-      imgPath: "./sweden.svg",
-      imgAlt: "Sweden Icon",
-      title: "Go to Sweden",
-    },
-    {
-      onClick: () => {
-        setFlyToPositionType(PositionType.userCurrent);
-        setStoreFlyToPositionType(PositionType.userCurrent);
-      },
-      imgPath: "./current.svg",
-      imgAlt: "Current Location Icon",
-      title: "Go to current",
-    },
-  ];
+  const onClickChangePosition = (positionType: PositionType): void => {
+    setFlyToPositionType(positionType);
+    setStoreFlyToPositionType(positionType);
+  };
 
   return (
     <div className="w-screen h-screen">
@@ -215,7 +195,7 @@ export default function MapLayout() {
         <ZoomControl position="topright" />
       </MapContainer>
 
-      <ChangePositionContainer buttonProps={changePositionButtonProps} />
+      <ChangePositionContainer onClickButton={onClickChangePosition} />
 
       <Navigation onClickCategory={onClickCategory} />
 

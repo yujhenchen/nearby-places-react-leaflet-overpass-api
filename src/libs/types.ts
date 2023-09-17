@@ -51,8 +51,8 @@ export type NavigationProps = {
 }
 
 
-export type ChangePositionButtonProps = {
-    onClick: (positionType: PositionType) => void;
+export type ChangePositionProps = {
+    positionType: PositionType;
     imgPath: string;
     imgAlt: string;
     title: string;

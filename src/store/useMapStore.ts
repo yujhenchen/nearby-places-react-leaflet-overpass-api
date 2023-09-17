@@ -13,7 +13,7 @@ const useMapStore = create<MapState>()(
                 lat: defaultPosition.lat,
                 lon: defaultPosition.lon,
             },
-            markerIconProps: { imagePath: '', backgroundColor: '' },
+            markerIconProps: { imagePath: './restaurant.svg', backgroundColor: 'bg-orange-300' },
             setPosition: (position: GeoPosition) => set({ position: position }),
             setFlyToPositionType: (flyToType: PositionType) => set({ flyToPositionType: flyToType }),
             setMarkerIconProps: (iconProps: MarkerIconProps) => set({ markerIconProps: iconProps }),
