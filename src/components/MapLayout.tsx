@@ -133,6 +133,8 @@ export default function MapLayout() {
     markerIconPropsDict[Category.restaurant]
   );
 
+  // const cardRefs = useRef<HTMLDivElement[]>([]);
+
   useEffect(() => {
     setMarkerIconProps(storeMarkerIconProps);
   }, []);

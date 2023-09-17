@@ -391,6 +391,22 @@ useMemo
 
 https://stackoverflow.com/questions/66288089/how-to-display-a-list-of-points-using-dbclick-in-react-leaflet-v-3-x
 
+## onScroll events for changing card container styles
+
+...
+
+## Scroll into the card after clicking on the corresponding marker
+
+### Pass Refs to Child Components using forwardRef
+
+https://dmitripavlutin.com/react-forwardref/
+
+https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forward_and_create_ref/
+
+### useRef for multiple children components
+
+...
+
 # Future works
 
 1. Use React Query for efficient data fetching and caching to increase performance (Done)
@@ -399,3 +415,4 @@ https://stackoverflow.com/questions/66288089/how-to-display-a-list-of-points-usi
 4. Storage: user saved places
 5. Loading UI during query (Done)
 6. Single chick on the map go to anywhere in the world (Done)
+7. onScroll events for changing card container styles
