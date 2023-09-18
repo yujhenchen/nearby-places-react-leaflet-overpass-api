@@ -148,7 +148,23 @@ export default function MapLayout() {
 
   const onClickCustomMapMarker = (event: LeafletMouseEvent): void => {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
-    // cardRefs.current[9].scrollIntoView();
+    let cardLat: number = -1;
+    let cardLng: number = -1;
+    for (let i = 0; i < cardRefs.current.length; i++) {
+      cardLat = +(
+        cardRefs.current[i].getAttribute("place-position-latitude") ?? -1
+      );
+      cardLng = +(
+        cardRefs.current[i].getAttribute("place-position-longitude") ?? -1
+      );
+      if (cardLat === event.latlng.lat && cardLng === event.latlng.lng) {
+        cardRefs.current[i].scrollIntoView({
+          block: "end",
+          behavior: "smooth",
+        });
+        break;
+      }
+    }
   };
 
   const onClickCategory = (

@@ -46,15 +46,19 @@ const PlaceCard = forwardRef<Ref, Props>(function (
         isSelected ? "scale-105 shadow-lg" : "hover:shadow-lg"
       }`}
       onClick={() => onclickCard(position)}
+      place-position-latitude={position.lat}
+      place-position-longitude={position.lon}
     >
       <h5
         id="place_name"
-        className="text-base font-bold text-gray-800 dark:text-white"
+        className={`text-base font-bold ${
+          isSelected ? "text-gray-800" : "text-gray-400"
+        }`}
       >
         {!name || name.trim().length < 0 ? THIS_IS_A_SECRET_PLACE : name}
       </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        Distance: <b>{distance}</b> km
+      <p className="font-normal text-gray-800">
+        Distance: <span className="font-semibold">{distance}</span> km
       </p>
 
       <button

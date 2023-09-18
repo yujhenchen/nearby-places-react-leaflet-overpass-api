@@ -432,6 +432,15 @@ Grand child component:
 
 ...
 
+## Add custom attribute to div
+
+### XXX does not exist on type 'DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>'
+
+Solution
+https://stackoverflow.com/questions/46215614/property-does-not-exist-on-type-detailedhtmlprops-htmldivelement-with-react
+
+...
+
 ## Create custom hooks for map-related uses
 
 https://www.freecodecamp.org/news/how-to-create-react-hooks/
@@ -453,4 +462,8 @@ https://stackoverflow.com/questions/29382389/defining-array-with-multiple-types-
 5. Loading UI during query (Done)
 6. Single chick on the map go to anywhere in the world (Done)
 7. onScroll events for changing card container styles
-8. Create custom hooks for map-related uses
+8. Scroll into the card after clicking on the corresponding marker
+   8.1 Create custom hooks for map-related uses
+   8.2 Add custom attribute to div
+9. XXX
+10. Add custom attribute to div
