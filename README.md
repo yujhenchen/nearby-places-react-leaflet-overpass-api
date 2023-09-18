@@ -403,7 +403,44 @@ https://dmitripavlutin.com/react-forwardref/
 
 https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forward_and_create_ref/
 
-### useRef for multiple children components
+### Deep refs forwarding
+
+https://dmitripavlutin.com/react-forwardref/#4-deep-refs-forwarding
+
+...
+
+### Storing an list of elements using useRef
+
+Possible solution: passing ref as props
+https://stackoverflow.com/questions/66764686/how-to-pass-a-ref-down-more-than-one-level-in-react
+
+https://eliaslog.pw/how-to-add-multiple-refs-to-one-useref-hook/
+
+Grand child component:
+
+```
+  ...
+
+<PlaceCard
+  ref={(element) => {
+  if (element) cardRefs.current[index] = element;
+  }}
+  key={place.id}
+
+  ...
+```
+
+...
+
+## Create custom hooks for map-related uses
+
+https://www.freecodecamp.org/news/how-to-create-react-hooks/
+
+...
+
+### TypeScript: define the return type of the custom hook to be an array with multiple types
+
+https://stackoverflow.com/questions/29382389/defining-array-with-multiple-types-in-typescript
 
 ...
 
@@ -416,3 +453,4 @@ https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forwa
 5. Loading UI during query (Done)
 6. Single chick on the map go to anywhere in the world (Done)
 7. onScroll events for changing card container styles
+8. Create custom hooks for map-related uses

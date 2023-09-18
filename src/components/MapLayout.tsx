@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -133,7 +133,9 @@ export default function MapLayout() {
     markerIconPropsDict[Category.restaurant]
   );
 
-  // const cardRefs = useRef<HTMLDivElement[]>([]);
+  const cardRefs: React.MutableRefObject<HTMLDivElement[]> = useRef<
+    HTMLDivElement[]
+  >([]);
 
   useEffect(() => {
     setMarkerIconProps(storeMarkerIconProps);
@@ -146,6 +148,7 @@ export default function MapLayout() {
 
   const onClickCustomMapMarker = (event: LeafletMouseEvent): void => {
     setSelectedPosition({ lat: event.latlng.lat, lon: event.latlng.lng });
+    // cardRefs.current[9].scrollIntoView();
   };
 
   const onClickCategory = (
@@ -202,6 +205,7 @@ export default function MapLayout() {
       <Navigation onClickCategory={onClickCategory} />
 
       <PlaceContainer
+        cardRefs={cardRefs}
         currentPosition={position}
         places={toDisplayPlaces ?? []}
         selectedPosition={selectedPosition}

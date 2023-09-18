@@ -9,6 +9,7 @@ type Props = {
   places: PlaceNode[];
   selectedPosition: GeoPosition | null;
   onclickCard: (position: GeoPosition) => void;
+  cardRefs: React.MutableRefObject<HTMLDivElement[]>;
 };
 
 export default function PlaceContainer({
@@ -16,6 +17,7 @@ export default function PlaceContainer({
   places,
   selectedPosition,
   onclickCard,
+  cardRefs,
 }: Props) {
   const [showDetailsCards, setShowDetailsCards] = useState<string[]>([]);
 
@@ -64,8 +66,11 @@ export default function PlaceContainer({
           }
         }}
       >
-        {places.map((place) => (
+        {places.map((place, index) => (
           <PlaceCard
+            ref={(element) => {
+              if (element) cardRefs.current[index] = element;
+            }}
             key={place.id}
             onclickCard={onclickCard}
             onShowDetails={onShowDetails}
