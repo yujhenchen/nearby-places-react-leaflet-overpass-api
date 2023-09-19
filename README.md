@@ -1,3 +1,21 @@
+# Table of Content
+
+1. Use React Query for efficient data fetching and caching to increase performance (Done)
+2. More categories of places (Done)
+3. Storage: current position (Done)
+4. Loading UI during query (Done)
+5. Single chick on the map go to anywhere in the world (Done)
+6. onScroll events for changing card container styles (Done)
+7. Scroll into the card after clicking on the corresponding marker (Done)
+
+- Pass Refs to Child Components using forwardRef
+- Deep refs forwarding
+- Storing an list of elements using useRef
+- Add custom attribute to div
+
+8. Create custom hooks for map-related uses
+9. Testing React components using Vitest
+
 # Packages
 
 Flowbite<br>
@@ -441,11 +459,27 @@ https://stackoverflow.com/questions/46215614/property-does-not-exist-on-type-det
 
 ...
 
-## Create custom hooks for map-related uses
+## Create custom hooks
 
 https://www.freecodecamp.org/news/how-to-create-react-hooks/
 
+```
+const [showStart, setShowStart] = useState(false);
+
+const [showEnd, setShowEnd] = useState(true);
+```
+
 ...
+
+## Testing React components using Vitest
+
+https://vitest.dev/guide/
+
+https://uploadcare.com/blog/vitest-unit-test-framework/
+
+https://github.com/vitest-dev/vitest/tree/main/examples/react
+
+https://www.npmjs.com/package/@types/react-test-renderer
 
 ### TypeScript: define the return type of the custom hook to be an array with multiple types
 
@@ -453,17 +487,6 @@ https://stackoverflow.com/questions/29382389/defining-array-with-multiple-types-
 
 ...
 
-# Future works
+# Reference
 
-1. Use React Query for efficient data fetching and caching to increase performance (Done)
-2. More categories of places (Done)
-3. Storage: current position (Done)
-4. Storage: user saved places
-5. Loading UI during query (Done)
-6. Single chick on the map go to anywhere in the world (Done)
-7. onScroll events for changing card container styles
-8. Scroll into the card after clicking on the corresponding marker
-   8.1 Create custom hooks for map-related uses
-   8.2 Add custom attribute to div
-9. XXX
-10. Add custom attribute to div
+https://github.com/othneildrew/Best-README-Template
