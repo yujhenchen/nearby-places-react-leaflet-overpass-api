@@ -1,34 +1,89 @@
-# Table of Content
+<a name="top"></a>
 
-1. Use React Query for efficient data fetching and caching to increase performance (Done)
-2. More categories of places (Done)
-3. Storage: current position (Done)
-4. Loading UI during query (Done)
-5. Single chick on the map go to anywhere in the world (Done)
-6. onScroll events for changing card container styles (Done)
-7. Scroll into the card after clicking on the corresponding marker (Done)
+<!-- PROJECT SHIELDS -->
 
-- Pass Refs to Child Components using forwardRef
-- Deep refs forwarding
-- Storing an list of elements using useRef
-- Add custom attribute to div
+<!-- [![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
-8. Create custom hooks for map-related uses
-9. Testing React components using Vitest
 
-# Packages
 
-Flowbite<br>
-Tailwind CSS<br>
-leafletjs<br>
-React Leaflet<br>
-Overpass API<br>
-zustand<br>
-react-query<br>
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h3 align="center">Project Features and Issues</h3>
 
-# Issues and solutions
+  <p align="center">
+    A finding nearby places app built with React, Vite, Flowbite, Tailwind CSS, leafletjs, React Leaflet, Overpass API, zustand, and TypeScript.
+  </p>
+</div>
 
-## 'require' is not defined
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#completed-features">Completed Features</a></li>
+    <li><a href="#to-do-tasks">To-Do Tasks</a></li>
+    <li><a href="#packages-used">Packages Used</a></li>
+    <li><a href="#issues-encountered-and-solutions">Issues Encountered and Solutions</a></li>
+    <li><a href="#extra-features">Extra Features</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</details>
+
+
+
+<!-- COMPLETED FEATURES -->
+## Completed Features:
+
+1. Utilized React Query for efficient data fetching and caching, enhancing performance.
+2. Expanded categories of places for more comprehensive search options.
+3. Implemented storage of the user's current position for enhanced user experience.
+4. Added loading UI during data queries for better visual feedback.
+5. Enabled single click navigation to any location worldwide directly on the map.
+6. Incorporated onScroll events to dynamically adjust card container styles.
+7. Implemented functionality to scroll into the corresponding card after clicking on a marker.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- TO-DO TASKS -->
+## To-Do Tasks:
+
+- Pass Refs to Child Components using forwardRef.
+- Implement deep refs forwarding for complex component structures.
+- Utilize useRef to store a list of elements efficiently.
+- Add custom attributes to div elements for enhanced styling flexibility.
+- Create custom hooks for map-related functionalities.
+- Explore testing React components using Vitest.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- PACKAGES USED -->
+## Packages Used:
+
+- Flowbite
+- Tailwind CSS
+- Leafletjs
+- React Leaflet
+- Overpass API
+- Zustand
+- React Query
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+## Issues Encountered and Solutions
+
+### 'require' is not defined
 
 In tailwind.config.js on `plugins: [require("flowbite/plugin")],`
 
@@ -40,27 +95,27 @@ ignore eslint
   plugins: [require("flowbite/plugin")],
 ```
 
-## Flex col auto wrap child element
+### Flex col auto wrap child element
 
 **Solution** <br>
 Change the parent layout to `lg:inline-block` instead of `lg:flex-col`
 
-## Overflow scroll does not work when flex row
+### Overflow scroll does not work when flex row
 
 **Solution** <br>
 Add missing width: 100vw; `w-screen` to the flex container
 
-## Flex nowrap does not work when flex row
+### Flex nowrap does not work when flex row
 
 **Solution** <br>
 Add missing height `h-full` to the flex element
 
-## Default scroll looks ugly
+### Default scroll looks ugly
 
 **Solution** <br>
 https://www.npmjs.com/package/tailwind-scrollbar
 
-## react-leaflet does not show correctly on the page
+### react-leaflet does not show correctly on the page
 
 **Solution** <br>
 https://leafletjs.com/examples/quick-start/  
@@ -104,7 +159,7 @@ Add below codes into **src\App.css**
 }
 ```
 
-## Default map is on the top of every component
+### Default map is on the top of every component
 
 **Solution** <br>
 https://wordpress.org/support/topic/leaflet-map-z-index-and-css/
@@ -162,14 +217,14 @@ export default function MapLayout() {
 }
 ```
 
-## Error: `Argument of type 'LatLng' is not assignable to parameter of type 'SetStateAction<null>'. Type 'LatLng' provides no match for the signature '(prevState: null): null'.`
+### Error: `Argument of type 'LatLng' is not assignable to parameter of type 'SetStateAction<null>'. Type 'LatLng' provides no match for the signature '(prevState: null): null'.`
 
 **Solution** <br>
 Change `useState(null);` to `useState<LatLng | null>(null);`
 
-# Tasks
+## Tasks
 
-## Get the user's current location and mark it on the map
+### Get the user's current location and mark it on the map
 
 https://react-leaflet.js.org/docs/example-events/
 
@@ -254,7 +309,7 @@ export default function MapLayout() {
 }
 ```
 
-## List 10 restaurants near the current location
+### List 10 restaurants near the current location
 
 https://opensource.com/article/18/5/how-build-your-first-gis-app
 
@@ -387,11 +442,11 @@ export default function PlaceContainer({
 }
 ```
 
-# Extra Features
+## Extra Features
 
-## Use React Query for efficient data fetching and caching to increase performance
+### Use React Query for efficient data fetching and caching to increase performance
 
-### Update and pass queryKey for query
+#### Update and pass queryKey for query
 
 https://github.com/TanStack/query/discussions/3200
 
@@ -405,29 +460,29 @@ https://github.com/TanStack/query/discussions/530
 ...
 useMemo
 
-## Single chick on the map go to anywhere in the world
+### Single chick on the map go to anywhere in the world
 
 https://stackoverflow.com/questions/66288089/how-to-display-a-list-of-points-using-dbclick-in-react-leaflet-v-3-x
 
-## onScroll events for changing card container styles
+### onScroll events for changing card container styles
 
 ...
 
-## Scroll into the card after clicking on the corresponding marker
+### Scroll into the card after clicking on the corresponding marker
 
-### Pass Refs to Child Components using forwardRef
+#### Pass Refs to Child Components using forwardRef
 
 https://dmitripavlutin.com/react-forwardref/
 
 https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forward_and_create_ref/
 
-### Deep refs forwarding
+#### Deep refs forwarding
 
 https://dmitripavlutin.com/react-forwardref/#4-deep-refs-forwarding
 
 ...
 
-### Storing an list of elements using useRef
+#### Storing an list of elements using useRef
 
 Possible solution: passing ref as props
 https://stackoverflow.com/questions/66764686/how-to-pass-a-ref-down-more-than-one-level-in-react
@@ -450,16 +505,16 @@ Grand child component:
 
 ...
 
-## Add custom attribute to div
+### Add custom attribute to div
 
-### XXX does not exist on type 'DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>'
+#### XXX does not exist on type 'DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>'
 
 Solution
 https://stackoverflow.com/questions/46215614/property-does-not-exist-on-type-detailedhtmlprops-htmldivelement-with-react
 
 ...
 
-## Create custom hooks
+### Create custom hooks
 
 https://www.freecodecamp.org/news/how-to-create-react-hooks/
 
@@ -471,22 +526,12 @@ const [showEnd, setShowEnd] = useState(true);
 
 ...
 
-## Testing React components using Vitest
-
-https://vitest.dev/guide/
-
-https://uploadcare.com/blog/vitest-unit-test-framework/
-
-https://github.com/vitest-dev/vitest/tree/main/examples/react
-
-https://www.npmjs.com/package/@types/react-test-renderer
-
 ### TypeScript: define the return type of the custom hook to be an array with multiple types
 
 https://stackoverflow.com/questions/29382389/defining-array-with-multiple-types-in-typescript
 
 ...
 
-# Reference
+## Reference
 
 https://github.com/othneildrew/Best-README-Template
